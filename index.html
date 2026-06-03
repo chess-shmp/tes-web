@@ -1,266 +1,87 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StockIntel - Saham Lebih Mudah Dipahami</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://tailwindcss.com"></script>
-    <!-- Lucide Icons CDN -->
-    <script src="https://unpkg.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            light: '#3b82f6',  /* Biru Elektrik */
-                            DEFAULT: '#1d4ed8',/* Biru Utama */
-                            dark: '#1e3a8a',   /* Biru Tua */
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <title>Sabarkaya - Home</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using a font similar to the style -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased font-sans">
+<body>
 
-    <!-- 1. NAVBAR -->
-    <header class="sticky top-0 bg-white/90 backdrop-blur-md border-b border-slate-200 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <!-- Logo & Brand Name -->
-            <div class="flex items-center space-x-3">
-                <!-- Placeholder SVG Banteng Biru Menyerupai Logo Anda -->
-                <svg class="w-8 h-8 text-brand" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M21 11c0-3.5-2.5-6-6-6s-4 1.5-5 3c-1-1.5-1.5-3-5-3s-6 2.5-6 6c0 3 2.5 5 5 6h1c.5 1 1.5 2 3 2s2.5-1 3-2h1c2.5 0 5-2 5-6zm-15 4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm10 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
-                </svg>
-                <span class="text-xl font-black tracking-tight text-brand-dark">stock<span class="text-brand-light">intel</span></span>
-            </div>
-            <!-- Nav Menu -->
-            <nav class="hidden md:flex space-x-8 font-medium text-slate-600">
-                <a href="#fitur" class="hover:text-brand transition">Fitur</a>
-                <a href="#kalkulator" class="hover:text-brand transition">Alat Analisis</a>
-                <a href="#harga" class="hover:text-brand transition">Harga</a>
-                <a href="#faq" class="hover:text-brand transition">FAQ</a>
-            </nav>
-            <!-- CTA Button -->
-            <div class="flex items-center space-x-4">
-                <a href="#" class="text-sm font-semibold text-slate-700 hover:text-brand transition">Masuk</a>
-                <a href="#" class="bg-brand hover:bg-brand-dark text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg shadow-brand/20 transition">Mulai Free Trial</a>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">SABARKAYA</div>
+            <ul class="nav-links">
+                <li><a href="#">News</a></li>
+                <li><a href="#">Reviews</a></li>
+                <li><a href="#">Interviews</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="tag">FEATURED</span>
+                <h1>The Underground Sound: Exploring the Dark Roots</h1>
+                <p>A deep dive into the history of the movement.</p>
+                <a href="#" class="btn">Read More</a>
             </div>
         </div>
     </header>
 
-    <!-- 2. HERO SECTION -->
-    <section class="relative overflow-hidden py-20 lg:py-32 bg-gradient-to-b from-blue-50/50 via-white to-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold bg-blue-100 text-brand-dark mb-6">
-                <i data-lucide="trending-up" class="w-3.5 h-3.5"></i> Platform Edukasi & Analisis Saham #1
-            </span>
-            <h1 class="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight max-w-4xl mx-auto leading-none">
-                Saham Lebih Mudah Dipahami. <br><span class="text-brand">Investasi Lebih Tenang.</span>
-            </h1>
-            <p class="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                Singkirkan kebisingan pasar. Dapatkan analisis tajam ala institusi, kalkulator saham pintar, dan komunitas pro untuk portofolio yang tumbuh konsisten.
-            </p>
-            <div class="mt-10 flex flex-wrap justify-center gap-4">
-                <a href="#kalkulator" class="bg-brand hover:bg-brand-dark text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-brand/30 transition transform hover:-translate-y-0.5 flex items-center gap-2">
-                    Coba Kalkulator Saham <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                </a>
-                <a href="#fitur" class="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 px-8 py-4 rounded-2xl font-bold shadow-sm transition">
-                    Pelajari Fitur
-                </a>
-            </div>
+    <!-- Main Content Grid -->
+    <main class="container">
+        <h2 class="section-title">Latest Articles</h2>
+        <div class="grid">
+            
+            <!-- Article 1 -->
+            <article class="card">
+                <div class="card-image" style="background-color: #333;"></div>
+                <div class="card-content">
+                    <span class="date">Oct 24, 2023</span>
+                    <h3>New Wave of Turkish Metal</h3>
+                    <p>The scene is evolving faster than ever before.</p>
+                    <a href="#">Read more &rarr;</a>
+                </div>
+            </article>
+
+            <!-- Article 2 -->
+            <article class="card">
+                <div class="card-image" style="background-color: #444;"></div>
+                <div class="card-content">
+                    <span class="date">Oct 22, 2023</span>
+                    <h3>Interview with the Band</h3>
+                    <p>We sat down with the legends to discuss their new album.</p>
+                    <a href="#">Read more &rarr;</a>
+                </div>
+            </article>
+
+            <!-- Article 3 -->
+            <article class="card">
+                <div class="card-image" style="background-color: #555;"></div>
+                <div class="card-content">
+                    <span class="date">Oct 20, 2023</span>
+                    <h3>Top 10 Albums of 2023</h3>
+                    <p>Our critics pick the best releases of the year.</p>
+                    <a href="#">Read more &rarr;</a>
+                </div>
+            </article>
+
         </div>
-    </section>
+    </main>
 
-    <!-- 3. INTERACTIVE TOOLS (KALKULATOR REAL) -->
-    <section id="kalkulator" class="py-20 bg-slate-100">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Kalkulator Pintar Average Down</h2>
-                <p class="mt-3 text-slate-600">Simulasikan pembelian rata-rata saham Anda secara presisi sebelum melakukan order real.</p>
-            </div>
-
-            <!-- Calculator Card -->
-            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Kondisi Lama -->
-                    <div class="space-y-4">
-                        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                            <i data-lucide="history" class="w-4 h-4"></i> Kepemilikan Saat Ini
-                        </h3>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Harga Beli Lama (Per Lembar)</label>
-                            <input type="number" id="price1" value="5000" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand focus:outline-none transition">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Jumlah Lot Lama</label>
-                            <input type="number" id="lot1" value="10" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand focus:outline-none transition">
-                        </div>
-                    </div>
-                                <!-- TAB PILIHAN ALAT ANALISIS -->
-            <div class="mt-12 text-center mb-6">
-                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Alat Analisis Saham Lanjutan</h2>
-                <p class="text-sm text-slate-500 mt-1">Gunakan kalkulator di bawah ini sesuai dengan skenario trading Anda.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-                
-                <!-- 1. KALKULATOR CUTLOSS & RECOVERY TARGET -->
-                <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-200 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2 text-brand">
-                            <i data-lucide="shield-alert" class="w-5 h-5"></i> 1. Kalkulator Cutloss & Recovery
-                        </h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Harga Beli Awal (Rp)</label>
-                                <input type="number" id="clPriceAwal" value="1000" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Harga Cutloss / Harga Saat Ini (Rp)</label>
-                                <input type="number" id="clPriceCut" value="800" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand focus:outline-none">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6 pt-4 border-t border-slate-100">
-                        <button onclick="hitungCutloss()" class="w-full bg-slate-900 hover:bg-black text-white py-2.5 rounded-xl font-bold text-sm transition mb-4">
-                            Hitung Persentase
-                        </button>
-                        <div class="grid grid-cols-2 gap-2 text-center">
-                            <div class="bg-red-50 p-2.5 rounded-xl border border-red-100">
-                                <span class="text-[10px] uppercase font-bold text-red-500 block">Kerugian Anda</span>
-                                <span id="resClMinus" class="text-sm font-black text-red-600">-20.00%</span>
-                            </div>
-                            <div class="bg-emerald-50 p-2.5 rounded-xl border border-emerald-100">
-                                <span class="text-[10px] uppercase font-bold text-emerald-600 block">Target Gain Rebound</span>
-                                <span id="resClRecovery" class="text-sm font-black text-emerald-600">+25.00%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2. KALKULATOR DIVIDEN YIELD -->
-                <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-200 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2 text-brand">
-                            <i data-lucide="coins" class="w-5 h-5"></i> 2. Kalkulator Dividen Yield
-                        </h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Estimasi DPS (Dividen Per Lembar / Rp)</label>
-                                <input type="number" id="divDps" value="120" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Harga Beli Saham Anda (Rp)</label>
-                                <input type="number" id="divPrice" value="2000" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand focus:outline-none">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 pt-4 border-t border-slate-100">
-                        <button onclick="hitungDividen()" class="w-full bg-slate-900 hover:bg-black text-white py-2.5 rounded-xl font-bold text-sm transition mb-4">
-                            Hitung Imbal Hasil
-                        </button>
-                        <div class="p-2.5 bg-blue-50 rounded-xl border border-blue-100 text-center">
-                            <span class="text-[10px] uppercase font-bold text-brand-dark block">Tingkat Yield Dividen</span>
-                            <span id="resDivYield" class="text-base font-black text-brand">6.00% Per Tahun</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- 3. KALKULATOR ALOKASI RISK MANAGEMENT (MONEY MANAGEMENT) -->
-            <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-200 mt-8">
-                <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2 text-brand">
-                    <i data-lucide="pie-chart" class="w-5 h-5"></i> 3. Kalkulator Alokasi Dana & Pembagian Peluru
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Total Modal Siap Tempur (Rp)</label>
-                        <input type="number" id="mmTotalModal" value="50000000" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Maksimal Alokasi Per Saham (%)</label>
-                        <input type="number" id="mmPersen" value="20" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand focus:outline-none">
-                    </div>
-                </div>
-                <button onclick="hitungMoneyManagement()" class="w-full mt-4 bg-brand hover:bg-brand-dark text-white py-3 rounded-xl font-bold text-sm transition">
-                    Rancang Manajemen Risiko Portofolio
-                </button>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-100">
-                    <div class="p-3 bg-slate-50 rounded-xl text-center">
-                        <span class="text-[10px] text-slate-500 block">Maksimal Dana 1 Emiten</span>
-                        <span id="resMmEmiten" class="text-sm font-bold text-slate-900">Rp 10.000.000</span>
-                    </div>
-                    <div class="p-3 bg-blue-50 rounded-xl text-center border border-blue-100">
-                        <span class="text-[10px] text-brand-dark block">Rekomendasi Skema Piramida (3 Peluru)</span>
-                        <span id="resMmPeluru" class="text-xs font-bold text-brand-dark">P1: 2Jt | P2: 3Jt | P3: 5Jt</span>
-                    </div>
-                </div>
-            </div>
-                    
-                    <!-- Kondisi Baru -->
-                    <div class="space-y-4">
-                        <h3 class="text-sm font-bold uppercase tracking-wider text-brand flex items-center gap-1.5">
-                            <i data-lucide="plus-circle" class="w-4 h-4"></i> Rencana Pembelian Baru
-                        </h3>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Harga Beli Baru</label>
-                            <input type="number" id="price2" value="4000" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand focus:outline-none transition">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Jumlah Lot Baru</label>
-                            <input type="number" id="lot2" value="20" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand focus:outline-none transition">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tombol Hitung -->
-                <button onclick="hitungAvgDown()" class="w-full mt-8 bg-brand hover:bg-brand-dark text-white py-4 rounded-xl font-bold shadow-lg transition flex items-center justify-center gap-2">
-                    <i data-lucide="calculator" class="w-5 h-5"></i> Hitung Harga Rata-Rata Baru
-                </button>
-
-                <!-- Hasil Perhitungan -->
-                <div class="mt-8 pt-6 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-                    <div class="p-4 bg-slate-50 rounded-2xl">
-                        <span class="text-xs font-semibold text-slate-500 block mb-1">Total Modal Investasi</span>
-                        <span id="resTotalModal" class="text-lg font-bold text-slate-900">Rp 13.000.000</span>
-                    </div>
-                    <div class="p-4 bg-slate-50 rounded-2xl">
-                        <span class="text-xs font-semibold text-slate-500 block mb-1">Total Muatan (Lot)</span>
-                        <span id="resTotalLot" class="text-lg font-bold text-slate-900">30 Lot</span>
-                    </div>
-                    <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100">
-                        <span class="text-xs font-bold text-brand-dark block mb-1">Average Price Baru</span>
-                        <span id="resAvgPrice" class="text-xl font-black text-brand">Rp 4.333</span>
-                    </div>
-                </div>
-            </div>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Sabarkaya Clone. All Rights Reserved.</p>
         </div>
-    </section>
+    </footer>
 
-    <!-- 4. FEATURES SECTION -->
-    <section id="fitur" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Mengapa Memilih StockIntel?</h2>
-                <p class="mt-4 text-slate-600 max-w-2xl mx-auto">Kami menyediakan ekosistem terlengkap untuk membantu keputusan investasi Anda menjadi terukur dan rasional.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Fitur 1 -->
-                <div class="p-8 rounded-3xl border border-slate-200 hover:border-brand/30 hover:shadow-xl transition group bg-slate-50/50">
-                    <div class="w-12 h-12 rounded-2xl bg-blue-100 text-brand flex items-center justify-center mb-6 group-hover:scale-110 transition">
-                        <i data-lucide="search-code"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">Analisis Emiten Mendalam</h3>
-  
-    <!-- Cara memanggil file javascript eksternal -->
-    <script src="script.js"></script>
 </body>
-                </html>
-                    
+</html>
