@@ -1,87 +1,549 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sabarkaya - Home</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Using a font similar to the style -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>VIP Saham Indonesia - Investasi Cerdas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f9f9f9;
+        }
+
+        /* Colors */
+        :root {
+            --green: #00897B;
+            --green-dark: #00695C;
+            --gold: #FFB300;
+            --gold-dark: #FF8F00;
+            --white: #ffffff;
+            --gray: #666;
+            --light-green: #E0F2F1;
+        }
+
+        /* Header */
+        header {
+            background: var(--green);
+            color: var(--white);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            background: var(--gold);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%);
+            color: var(--white);
+            padding: 150px 0 100px;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--gold);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--green-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 3rem;
+        }
+
+        /* Free Content */
+        .free-content {
+            background: var(--white);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .content-card {
+            background: var(--light-green);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--green);
+        }
+
+        .content-card h3 {
+            color: var(--green-dark);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .content-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* VIP Section */
+        .vip-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: var(--white);
+        }
+
+        .vip-section .section-title {
+            color: var(--gold);
+        }
+
+        .vip-section .section-subtitle {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .vip-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .vip-feature {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .vip-feature:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+
+        .vip-feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .vip-feature h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .vip-feature p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .vip-badge {
+            background: var(--gold);
+            color: #1a1a2e;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            background: var(--white);
+        }
+
+        .pricing-card {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--light-green);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            border: 3px solid var(--green);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.popular {
+            border-color: var(--gold);
+        }
+
+        .pricing-badge {
+            background: var(--gold);
+            color: #1a1a2e;
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--green-dark);
+            margin: 1rem 0;
+        }
+
+        .price-period {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin: 2rem 0;
+        }
+
+        .pricing-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .check {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        /* QRIS Payment */
+        .payment {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .payment-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+        }
+
+        .step-number {
+            background: var(--gold);
+            color: #1a1a2e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .step h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .step p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .qris-info {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .qris-info h3 {
+            margin-bottom: 1rem;
+        }
+
+        .whatsapp-button {
+            display: inline-block;
+            background: #25D366;
+            color: var(--white);
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a2e;
+            color: var(--white);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .pricing-card {
+                padding: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-
-    <!-- Navigation -->
-    <nav>
-        <div class="container nav-container">
-            <div class="logo">SABARKAYA</div>
-            <ul class="nav-links">
-                <li><a href="#">News</a></li>
-                <li><a href="#">Reviews</a></li>
-                <li><a href="#">Interviews</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <span class="tag">FEATURED</span>
-                <h1>The Underground Sound: Exploring the Dark Roots</h1>
-                <p>A deep dive into the history of the movement.</p>
-                <a href="#" class="btn">Read More</a>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">📈</div>
+                VIP Saham ID
             </div>
+            <nav>
+                <ul>
+                    <li><a href="#beranda">Beranda</a></li>
+                    <li><a href="#gratis">Konten Gratis</a></li>
+                    <li><a href="#vip">VIP</a></li>
+                    <li><a href="#harga">Harga</a></li>
+                    <li><a href="#daftar">Daftar</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <!-- Main Content Grid -->
-    <main class="container">
-        <h2 class="section-title">Latest Articles</h2>
-        <div class="grid">
+    <!-- Hero -->
+    <section class="hero" id="beranda">
+        <div class="hero-container">
+            <h1>Daftar Saham Indonesia Terbaik</h1>
+            <p class="subtitle"> analis professional untuk investasi cerdas di Bursa Efek Indonesia. Raih maximisekan keuntungan Anda dengan informasi yang akurat dan terpercaya.</p>
             
-            <!-- Article 1 -->
-            <article class="card">
-                <div class="card-image" style="background-color: #333;"></div>
-                <div class="card-content">
-                    <span class="date">Oct 24, 2023</span>
-                    <h3>New Wave of Turkish Metal</h3>
-                    <p>The scene is evolving faster than ever before.</p>
-                    <a href="#">Read more &rarr;</a>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Rekomendasi Saham</div>
                 </div>
-            </article>
-
-            <!-- Article 2 -->
-            <article class="card">
-                <div class="card-image" style="background-color: #444;"></div>
-                <div class="card-content">
-                    <span class="date">Oct 22, 2023</span>
-                    <h3>Interview with the Band</h3>
-                    <p>We sat down with the legends to discuss their new album.</p>
-                    <a href="#">Read more &rarr;</a>
+                <div class="stat">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Member Aktif</div>
                 </div>
-            </article>
-
-            <!-- Article 3 -->
-            <article class="card">
-                <div class="card-image" style="background-color: #555;"></div>
-                <div class="card-content">
-                    <span class="date">Oct 20, 2023</span>
-                    <h3>Top 10 Albums of 2023</h3>
-                    <p>Our critics pick the best releases of the year.</p>
-                    <a href="#">Read more &rarr;</a>
+                <div class="stat">
+                    <div class="stat-number">90%</div>
+                    <div class="stat-label">Tingkat Akurasi</div>
                 </div>
-            </article>
-
+            </div>
         </div>
-    </main>
+    </section>
 
-    <!-- Footer -->
-    <footer>
+    <!-- Free Content -->
+    <section class="free-content" id="gratis">
         <div class="container">
-            <p>&copy; 2023 Sabarkaya Clone. All Rights Reserved.</p>
+            <h2 class="section-title">Konten Gratis</h2>
+            <p class="section-subtitle">Yang bisa Anda akses tanpa biaya</p>
+            
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>📊 Indeks Saham Harian</h3>
+                    <p>Update pergerakan IHSG, IDX Composite, dan sektor-sektor utama Bursa Efek Indonesia setiap hari bursa.</p>
+                </div>
+                
+                <div class="content-card">
+                    <h3>📰 News Brief</h3>
+                    <p>Ringkasan berita ekonomi dan pasar modal Indonesia yang relevan untuk investasi Anda.</p>
+                </div>
+                
+                <div class="content-card">
+                    <h3>📈 Chart Overview</h3>
+                    <p>Tampilan chart sederhana untuk beberapa saham besar seperti BBCA, BBRI, TLKM, dll.</p>
+                </div>
+            </div>
         </div>
-    </footer>
+    </section>
 
-</body>
-</html>
+    <!-- VIP Section -->
+    <section class="vip-section" id="vip">
+        <div class="container">
+            <h2 class="section-title">✨ Fitur VIP</h2>
+            <p class="section-subtitle">Eksklusif untuk member yang sudah membayar</p>
+            
+            <div class="vip-features">
+                <div class="vip-feature">
+                    <span class="vip-badge">AKTIF</span>
+                    <div class="vip-feature-icon">🎯</div>
+                    <h3>Rekomendasi Beli Saham</h3>
+                    <p>Stock pick mingguan dengan analisis fundamental dan teknikal lengkap.目标的 entry point yang jelas.</p>
+                </div>
+                
+                <div class="vip-feature">
+                    <span class="vip-badge">AKTIF</span>
+                    <div class="vip-feature-icon">🛡️</div>
+                    <h3>Sinyal Beli & Jual</h3>
+                    <p>Notifikasi langsung ketika ada机会 emas untuk entry atau exit posisi. anti telat!</p>
+                </div>
+                
+                <div class="vip-feature">
+                    <span class="vip-badge">AKTIF</span>
+                    <div class="vip-feature-icon">📊</div>
+                    <h3>Analisis Portfolio</h3>
+                    <p>Review mingguan untuk portfolio member. Tips diversifikasi dan allocation yang optimal.</p>
+                </div>
+                
+                <div class="vip-feature">
+                    <span class="vip-badge">AKTIF</span>
+                    <div class="vip-feature-icon">📑</div>
+                    <h3>Laporan Perusahaan</h3>
+                    <p>Analisis mendalam laporan keuangan perusahaan listed. Kuartalan update.</p>
+                </div>
+                
+                <div class="vip-feature">
+                    <span class="vip-badge">AKTIF</span>
+                    <div class="vip-feature-icon">💬</div>
+                    <h3> Grup Diskusi Private</h3>
+                    <p>Diskusi langsung dengan analyst dan member lain. Ask anything!</p>
+                </div>
+                
+                <div class="vip-feature">
+                    <span class="vip-badge">AKTIF</span>
+                    <div class="vip-feature-icon">🎓</div>
+                    <h3>Edukasi Investasi</h3>
+                    <p>Materi belajar investasi dari dasar hingga lanjutan. Gratis untuk VIP member.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="harga">
+        <div class="container">
+            <h2 class="section-title">Harga Membership</h2>
+            <p class="section-subtitle">Investasi cerdas untuk masa depan finansial Anda</p>
+            
+            <div class="pricing-card popular">
+                <div class="pricing-badge">BEST VALUE</div>
+                <h3>VIP Premium</h3>
+                <div class="price">Rp 200.000</div>
+                <div class="price-period">per bulan</div>
