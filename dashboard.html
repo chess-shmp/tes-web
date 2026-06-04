@@ -28,6 +28,8 @@
         body { font-family: 'Inter', sans-serif; }
         .glow { box-shadow: 0 0 15px rgba(29, 78, 216, 0.4); }
     </style>
+    <!-- Script TradingView dimuat di head secara global agar aman -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 </head>
 <body class="bg-brand-dark text-white antialiased min-h-screen">
 
@@ -129,31 +131,12 @@
                         </div>
                     </div>
 
-                    <!-- Interactive TradingView Analysis Area -->
+                    <!-- Interactive TradingView Analysis Area (Grafik diamankan) -->
                     <div class="bg-brand-card rounded-2xl border border-gray-800 p-6">
                         <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><i class="fas fa-chart-area text-brand-400"></i> Interactive Stock Chart Terminal</h3>
                         <div style="height: 450px;">
                             <div class="tradingview-widget-container" style="height:100%;width:100%;">
                                 <div id="tradingview_vip_chart" style="height:100%;width:100%;"></div>
-                                <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-                                <script type="text/javascript">
-                                new TradingView.widget(
-                                {
-                                "width": "100%",
-                                "height": "100%",
-                                "symbol": "IDX:COMPOSITE",
-                                "interval": "D",
-                                "timezone": "Asia/Jakarta",
-                                "theme": "dark",
-                                "style": "1",
-                                "locale": "id",
-                                "toolbar_bg": "#111C3A",
-                                "enable_publishing": false,
-                                "withideas": true,
-                                "container_id": "tradingview_vip_chart"
-                                }
-                                );
-                                </script>
                             </div>
                         </div>
                     </div>
@@ -201,11 +184,10 @@
 
     <!-- SCRIPT LOGIKA VALIDASI MASA AKTIF & VERIFIKASI VIP -->
     <script>
-        // Salt kunci rahasia untuk memvalidasi keamanan kode akses secara matematika (Stateless)
         const SALT = "STOCKINTEL_VIP_KEY_SECURE";
-        const ADMIN_PASS = "087832727925"; // Sandi admin (nomor WhatsApp Anda)
+        const ADMIN_PASS = "087832727925"; // Nomor Admin Anda
 
-        // Sederhana Hash algoritma untuk verifikasi kode
+        // Fungsi enkripsi hash ringan
         function generateCheckCode(dateStr, name) {
             let combined = dateStr + name + SALT;
             let hash = 0;
@@ -216,16 +198,50 @@
             return Math.abs(hash).toString(36).substring(0, 5).toUpperCase();
         }
 
+        // Inisialisasi Chart secara AMAN (Dipanggil HANYA jika login sukses)
+        function initVipChart() {
+            try {
+                if (typeof TradingView !== 'undefined' && document.getElementById('tradingview_vip_chart')) {
+                    new TradingView.widget({
+                        "width": "100%",
+                        "height": "100%",
+                        "symbol": "IDX:COMPOSITE",
+                        "interval": "D",
+                        "timezone": "Asia/Jakarta",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "id",
+                        "toolbar_bg": "#111C3A",
+                        "enable_publishing": false,
+                        "withideas": true,
+                        "container_id": "tradingview_vip_chart"
+                    });
+                }
+            } catch (err) {
+                console.error("Gagal memuat TradingView widget secara visual:", err);
+            }
+        }
+
         // Jalankan pemeriksaan otomatis saat halaman dimuat
         window.onload = function() {
-            // 1. Coba baca kode dari parameter URL (?code=ST-xxxxxxxx)
+            // Pasang event listener 'Enter' pada kolom input agar memudahkan login
+            const codeInput = document.getElementById('access-code-input');
+            if (codeInput) {
+                codeInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        attemptLogin();
+                    }
+                });
+            }
+
+            // Baca Parameter URL (?code=...)
             const urlParams = new URLSearchParams(window.location.search);
             let urlCode = urlParams.get('code');
 
             if (urlCode) {
                 verifyAndLogin(urlCode);
             } else {
-                // 2. Jika di URL tidak ada, coba ambil kode dari memori lokal (localStorage)
+                // Baca penyimpanan lokal browser (localStorage)
                 let savedCode = localStorage.getItem('stockintel_vip_token');
                 if (savedCode) {
                     verifyAndLogin(savedCode);
@@ -249,7 +265,6 @@
             }
 
             try {
-                // Dekonstruksi kode: ST-YYYYMMDD-NAME-CHECK
                 const parts = fullCode.split("-");
                 if (parts.length < 4) {
                     handleLoginFailed("Kode akses salah atau tidak utuh.");
@@ -265,14 +280,12 @@
                 const day = parseInt(dateStr.substring(6, 8));
                 const joinDate = new Date(year, month, day);
 
-                // Verifikasi validitas keaslian kode (anti-manipulasi)
                 const realCheck = generateCheckCode(dateStr, b36Name);
                 if (inputCheck !== realCheck) {
                     handleLoginFailed("Kode akses tidak valid (Signature Mismatch).");
                     return;
                 }
 
-                // Kalkulasi sisa masa aktif selama 30 Hari
                 const today = new Date();
                 const diffTime = today - joinDate;
                 const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
@@ -283,14 +296,12 @@
                     return;
                 }
 
-                // Login Sukses! Simpan kode di localStorage agar tidak berulang kali input
+                // Login Sukses!
                 localStorage.setItem('stockintel_vip_token', fullCode);
                 
-                // Sembunyikan Gerbang, Tampilkan Dashboard
                 document.getElementById('vip-gate').classList.add('hidden');
                 document.getElementById('dashboard-content').classList.remove('hidden');
 
-                // Set tampilan Sapaan & Notifikasi Masa Aktif
                 const readableName = b36Name.replace(/_/g, " ");
                 document.getElementById('member-greeting-name').innerText = readableName;
                 document.getElementById('expiry-badge').innerText = `Masa Aktif VIP: ${daysRemaining} Hari Lagi (Hingga ${new Date(joinDate.getTime() + (30 * 24 * 60 * 60 * 1000)).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})})`;
@@ -300,6 +311,9 @@
                     const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
                     window.history.pushState({path: cleanUrl}, '', cleanUrl);
                 } catch(e) { /* Abaikan proteksi sandbox */ }
+
+                // Panggil Rendering Chart secara AMAN setelah login sukses
+                setTimeout(initVipChart, 200);
 
             } catch (err) {
                 handleLoginFailed("Kesalahan pemrosesan data.");
@@ -318,6 +332,4 @@
         }
 
         function logout() {
-            localStorage.removeItem('stockintel_vip_token');
-            // Muat ulang halaman untuk memicu penguncian
-            window.location
+            localSt
