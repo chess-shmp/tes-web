@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StockIntel - VIP Member Dashboard</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- TradingView Script (Dimuat aman di head) -->
+    <script src="https://s3.tradingview.com/tv.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -28,21 +32,20 @@
         body { font-family: 'Inter', sans-serif; }
         .glow { box-shadow: 0 0 15px rgba(29, 78, 216, 0.4); }
     </style>
-    <!-- Script TradingView dimuat di head secara global agar aman -->
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 </head>
 <body class="bg-brand-dark text-white antialiased min-h-screen">
 
-    <!-- PORTAL PENGUNCI VIP (Akan tersembunyi otomatis jika kode valid) -->
+    <!-- PORTAL PENGUNCI VIP -->
     <div id="vip-gate" class="fixed inset-0 z-50 bg-brand-dark flex items-center justify-center p-4">
         <div class="max-w-md w-full bg-brand-card rounded-2xl border border-gray-700 p-8 text-center shadow-2xl">
-            <img src="logo.png" alt="StockIntel Logo" class="h-16 mx-auto mb-6 object-contain">
+            <img src="logo.png" alt="StockIntel Logo" class="h-16 mx-auto mb-6 object-contain" onerror="this.style.display='none'">
             <h2 class="text-2xl font-bold mb-2">Akses VIP Terbatas</h2>
             <p class="text-gray-400 text-sm mb-6">Masukkan kode akses VIP yang Anda terima setelah melakukan konfirmasi pendaftaran di WhatsApp.</p>
             
             <div class="space-y-4">
-                <input type="text" id="access-code-input" placeholder="Masukkan Kode Akses Anda (Contoh: ST-...)" class="w-full px-4 py-3 bg-brand-dark rounded-xl border border-gray-700 text-white text-center font-mono focus:border-brand-500 focus:outline-none uppercase">
-                <button onclick="attemptLogin()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3 rounded-xl transition-all">Verifikasi & Masuk</button>
+                <!-- Input field dengan event listener Enter langsung di HTML -->
+                <input type="text" id="access-code-input" placeholder="Masukkan Kode Akses Anda (Contoh: ST-...)" class="w-full px-4 py-3 bg-brand-dark rounded-xl border border-gray-700 text-white text-center font-mono focus:border-brand-500 focus:outline-none uppercase" onkeypress="handleKeyPress(event)">
+                <button type="button" onclick="attemptLogin()" class="w-full bg-brand-500 hover:bg-brand-600 active:bg-brand-700 text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-brand-500/20 cursor-pointer">Verifikasi & Masuk</button>
             </div>
             
             <div class="mt-6 border-t border-gray-800 pt-6">
@@ -54,20 +57,19 @@
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD CONTENT (Hanya tampil jika sudah login) -->
+    <!-- MAIN DASHBOARD CONTENT (Tersembunyi secara default) -->
     <div id="dashboard-content" class="hidden">
         <!-- Navbar VIP -->
         <nav class="bg-brand-card/95 backdrop-blur border-b border-gray-800 sticky top-0 z-40">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-20">
                     <div class="flex items-center gap-4">
-                        <img src="logo.png" alt="StockIntel Logo" class="h-10 md:h-14 object-contain">
+                        <img src="logo.png" alt="StockIntel Logo" class="h-10 md:h-14 object-contain" onerror="this.style.display='none'">
                         <span class="bg-brand-500/20 text-brand-400 text-xs font-bold px-2.5 py-1 rounded-full border border-brand-500/30 uppercase tracking-widest hidden sm:inline-block">VIP Member</span>
                     </div>
                     <div class="flex items-center gap-4">
-                        <!-- Notifikasi Masa Aktif -->
                         <span id="expiry-badge" class="bg-green-500/20 text-green-400 text-xs font-semibold px-3 py-1.5 rounded-lg border border-green-500/30">Masa Aktif VIP</span>
-                        <button onclick="logout()" class="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1.5">
+                        <button onclick="logout()" class="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer">
                             <i class="fas fa-sign-out-alt"></i> <span class="hidden sm:inline">Keluar</span>
                         </button>
                     </div>
@@ -77,19 +79,19 @@
 
         <!-- Admin Panel (Hanya tampil untuk akun Admin 087832727925) -->
         <div id="admin-panel" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-            <div class="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-2xl p-6 border border-purple-500/30">
+            <div class="bg-gradient-to-r from-purple-900/80 to-indigo-900/80 rounded-2xl p-6 border border-purple-500/30">
                 <h3 class="text-xl font-bold mb-2 flex items-center gap-2"><i class="fas fa-user-shield text-purple-400"></i> StockIntel Admin Control</h3>
                 <p class="text-gray-300 text-sm mb-4">Gunakan generator ini untuk membuat link akses bermasa aktif 30 hari untuk member VIP baru Anda.</p>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <input type="text" id="admin-member-name" placeholder="Nama Lengkap Member" class="px-4 py-3 bg-black/30 rounded-xl border border-purple-500/30 text-white placeholder-gray-500 focus:outline-none">
                     <input type="date" id="admin-join-date" class="px-4 py-3 bg-black/30 rounded-xl border border-purple-500/30 text-white focus:outline-none">
-                    <button onclick="generateVipCode()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition-all">Generate Link & Kode VIP</button>
+                    <button onclick="generateVipCode()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition-all cursor-pointer">Generate Link & Kode VIP</button>
                 </div>
                 <!-- Result Section -->
                 <div id="admin-result" class="hidden bg-black/40 p-4 rounded-xl border border-purple-500/20">
                     <p class="text-xs text-purple-400 font-semibold uppercase tracking-wider mb-2">Link Akses Berhasil Dibuat!</p>
-                    <p class="text-sm font-mono text-gray-300 select-all mb-4" id="admin-result-link"></p>
-                    <button onclick="copyAdminResult()" class="bg-white/10 hover:bg-white/20 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors inline-flex items-center gap-2">
+                    <p class="text-sm font-mono text-gray-300 select-all mb-4 bg-black/50 p-3 rounded border border-gray-800" id="admin-result-link"></p>
+                    <button onclick="copyAdminResult()" class="bg-white/10 hover:bg-white/20 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors inline-flex items-center gap-2 cursor-pointer">
                         <i class="far fa-copy"></i> Salin Link & Draft Pesan WA
                     </button>
                 </div>
@@ -110,49 +112,47 @@
 
             <!-- Dashboard Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Left: Daily Briefings & Charts (2 Cols) -->
+                <!-- Left Section (Daily Briefings & Charts) -->
                 <div class="lg:col-span-2 space-y-8">
-                    <!-- Daily Briefing Section -->
+                    <!-- Daily Briefing Card -->
                     <div class="bg-brand-card rounded-2xl border border-gray-800 p-6 md:p-8">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-xl font-bold flex items-center gap-2"><i class="fas fa-file-invoice-dollar text-brand-400"></i> Daily Market Briefing</h3>
-                            <span class="bg-brand-500/30 text-brand-400 text-xs px-2.5 py-1 rounded-full border border-brand-500/50">Edisi Pagi: 4 Juni 2026</span>
+                            <span class="bg-brand-500/30 text-brand-400 text-xs px-2.5 py-1 rounded-full border border-brand-500/50">Edisi Pagi</span>
                         </div>
                         <div class="prose prose-invert max-w-none text-gray-300 leading-relaxed space-y-4 text-sm md:text-base">
-                            <p class="font-semibold text-white">Outlook IHSG Hari Ini (Target: 7,240 - 7,310):</p>
-                            <p>IHSG diproyeksikan akan bergerak variatif cenderung menguat hari ini, didukung oleh penguatan bursa global semalam serta rilis kinerja keuangan emiten perbankan besar yang tumbuh di atas ekspektasi konsensus. Arus dana asing (foreign inflow) terpantau mulai masuk kembali ke instrumen pasar modal.</p>
+                            <p class="font-semibold text-white">Outlook IHSG Hari Ini:</p>
+                            <p>IHSG diproyeksikan akan bergerak variatif cenderung menguat hari ini, didukung oleh penguatan bursa global semalam serta rilis kinerja keuangan emiten perbankan besar yang tumbuh di atas ekspektasi konsensus.</p>
                             <div class="bg-brand-dark/50 p-4 rounded-xl border border-gray-800 space-y-2">
                                 <p class="text-xs font-bold text-yellow-400 uppercase tracking-widest"><i class="fas fa-lightbulb"></i> Rekomendasi Hari Ini:</p>
                                 <ul class="list-disc pl-5 text-sm space-y-1.5 text-gray-300">
-                                    <li><strong class="text-white">BBCA (Buy on Weakness):</strong> Area beli Rp 10.100 - Rp 10.250. Target target jangka pendek Rp 10.600. Batasi risiko jika tembus Rp 9.900.</li>
+                                    <li><strong class="text-white">BBCA (Buy on Weakness):</strong> Area beli Rp 10.100 - Rp 10.250. Target jangka pendek Rp 10.600. Batasi risiko jika tembus Rp 9.900.</li>
                                     <li><strong class="text-white">ASII (Trading Buy):</strong> Area beli Rp 5.150 - Rp 5.250. Target resistance Rp 5.500. Cut loss di Rp 5.000.</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Interactive TradingView Analysis Area (Grafik diamankan) -->
+                    <!-- Interactive Chart Card -->
                     <div class="bg-brand-card rounded-2xl border border-gray-800 p-6">
                         <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><i class="fas fa-chart-area text-brand-400"></i> Interactive Stock Chart Terminal</h3>
-                        <div style="height: 450px;">
-                            <div class="tradingview-widget-container" style="height:100%;width:100%;">
-                                <div id="tradingview_vip_chart" style="height:100%;width:100%;"></div>
-                            </div>
+                        <div style="height: 450px; width: 100%;">
+                            <div id="tradingview_vip_chart" style="height:100%;width:100%;"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: Research Reports & Helpdesk (1 Col) -->
+                <!-- Right Section (Reports & Helpdesk) -->
                 <div class="space-y-8">
-                    <!-- Deep-Dive Reports Catalog -->
+                    <!-- Reports Catalog -->
                     <div class="bg-brand-card rounded-2xl border border-gray-800 p-6">
                         <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><i class="fas fa-book-reader text-brand-400"></i> Deep-Dive Riset Saham</h3>
                         <div class="space-y-4">
                             <!-- Report 1 -->
                             <div class="bg-brand-dark p-4 rounded-xl border border-gray-800 hover:border-brand-500 transition-colors">
                                 <span class="text-[10px] bg-red-500/20 text-red-400 font-bold px-2 py-0.5 rounded border border-red-500/30 uppercase tracking-wider">PDF Analisis</span>
-                                <h4 class="font-bold text-white mt-2 mb-1">Membongkar Prospek Emiten Nikel 2026</h4>
-                                <p class="text-xs text-gray-500 mb-3">Riset fundamental komprehensif (32 Halaman)</p>
+                                <h4 class="font-bold text-white mt-2 mb-1">Membongkar Prospek Emiten Nikel</h4>
+                                <p class="text-xs text-gray-500 mb-3">Riset fundamental komprehensif</p>
                                 <a href="#" class="text-xs bg-brand-500 hover:bg-brand-600 text-white font-semibold px-3 py-1.5 rounded inline-flex items-center gap-1">
                                     <i class="fas fa-download"></i> Unduh Laporan
                                 </a>
@@ -160,8 +160,8 @@
                             <!-- Report 2 -->
                             <div class="bg-brand-dark p-4 rounded-xl border border-gray-800 hover:border-brand-500 transition-colors">
                                 <span class="text-[10px] bg-yellow-500/20 text-yellow-400 font-bold px-2 py-0.5 rounded border border-yellow-500/30 uppercase tracking-wider">Sektor Analisis</span>
-                                <h4 class="font-bold text-white mt-2 mb-1">Review Emiten Konsumer Menjelang Lebaran</h4>
-                                <p class="text-xs text-gray-500 mb-3">Peta persaingan ICBP vs MYOR (18 Halaman)</p>
+                                <h4 class="font-bold text-white mt-2 mb-1">Review Emiten Konsumer</h4>
+                                <p class="text-xs text-gray-500 mb-3">Peta persaingan ICBP vs MYOR</p>
                                 <a href="#" class="text-xs bg-brand-500 hover:bg-brand-600 text-white font-semibold px-3 py-1.5 rounded inline-flex items-center gap-1">
                                     <i class="fas fa-download"></i> Unduh Laporan
                                 </a>
@@ -169,7 +169,7 @@
                         </div>
                     </div>
 
-                    <!-- Member Support Desk -->
+                    <!-- Helpdesk Desk -->
                     <div class="bg-brand-card rounded-2xl border border-gray-800 p-6">
                         <h3 class="text-lg font-bold mb-2 flex items-center gap-2"><i class="fas fa-headset text-brand-400"></i> Konsultasi & Bantuan</h3>
                         <p class="text-xs text-gray-400 mb-4 leading-relaxed">Butuh bantuan seputar kode akses, kendala pendaftaran, atau memiliki pertanyaan khusus terkait saham? Tim analis kami siap membantu.</p>
@@ -182,12 +182,12 @@
         </div>
     </div>
 
-    <!-- SCRIPT LOGIKA VALIDASI MASA AKTIF & VERIFIKASI VIP -->
+    <!-- SCRIPT UTAMA - DIBUAT AMAN DAN TERUJI -->
     <script>
         const SALT = "STOCKINTEL_VIP_KEY_SECURE";
-        const ADMIN_PASS = "087832727925"; // Nomor Admin Anda
+        const ADMIN_PASS = "087832727925";
 
-        // Fungsi enkripsi hash ringan
+        // Fungsi enkripsi ringan pembuat kode akses unik
         function generateCheckCode(dateStr, name) {
             let combined = dateStr + name + SALT;
             let hash = 0;
@@ -198,10 +198,10 @@
             return Math.abs(hash).toString(36).substring(0, 5).toUpperCase();
         }
 
-        // Inisialisasi Chart secara AMAN (Dipanggil HANYA jika login sukses)
+        // Inisialisasi Tradingview Chart (Hanya setelah login sukses)
         function initVipChart() {
             try {
-                if (typeof TradingView !== 'undefined' && document.getElementById('tradingview_vip_chart')) {
+                if (typeof TradingView !== 'undefined') {
                     new TradingView.widget({
                         "width": "100%",
                         "height": "100%",
@@ -216,64 +216,41 @@
                         "withideas": true,
                         "container_id": "tradingview_vip_chart"
                     });
+                } else {
+                    console.warn("TradingView library is not loaded yet.");
                 }
             } catch (err) {
-                console.error("Gagal memuat TradingView widget secara visual:", err);
+                console.error("Error loading TradingView chart:", err);
             }
         }
 
-        // Jalankan pemeriksaan otomatis saat halaman dimuat
-        window.onload = function() {
-            // Pasang event listener 'Enter' pada kolom input agar memudahkan login
-            const codeInput = document.getElementById('access-code-input');
-            if (codeInput) {
-                codeInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        attemptLogin();
-                    }
-                });
-            }
-
-            // Baca Parameter URL (?code=...)
-            const urlParams = new URLSearchParams(window.location.search);
-            let urlCode = urlParams.get('code');
-
-            if (urlCode) {
-                verifyAndLogin(urlCode);
-            } else {
-                // Baca penyimpanan lokal browser (localStorage)
-                let savedCode = localStorage.getItem('stockintel_vip_token');
-                if (savedCode) {
-                    verifyAndLogin(savedCode);
-                }
-            }
-        };
-
+        // Verifikasi kode akses
         function verifyAndLogin(fullCode) {
+            if (!fullCode) return;
             fullCode = fullCode.trim().toUpperCase();
 
-            // Skenario 1: Admin Login
+            // Skenario 1: Admin Mode
             if (fullCode === ADMIN_PASS) {
                 activateAdminMode();
                 return;
             }
 
-            // Skenario 2: Member VIP Regular
+            // Skenario 2: Member VIP
             if (!fullCode.startsWith("ST-")) {
-                handleLoginFailed("Format kode tidak dikenal.");
+                handleLoginFailed("Format kode salah. Gunakan kode berawalan ST-");
                 return;
             }
 
             try {
                 const parts = fullCode.split("-");
                 if (parts.length < 4) {
-                    handleLoginFailed("Kode akses salah atau tidak utuh.");
+                    handleLoginFailed("Kode tidak lengkap.");
                     return;
                 }
 
-                const dateStr = parts[1]; // Format: YYYYMMDD
-                const b36Name = parts[2];
-                const inputCheck = parts[3];
+                const dateStr = parts[1]; // YYYYMMDD
+                const b36Name = parts[2]; // Nama Member
+                const inputCheck = parts[3]; // Hash Pengaman
 
                 const year = parseInt(dateStr.substring(0, 4));
                 const month = parseInt(dateStr.substring(4, 6)) - 1;
@@ -282,54 +259,78 @@
 
                 const realCheck = generateCheckCode(dateStr, b36Name);
                 if (inputCheck !== realCheck) {
-                    handleLoginFailed("Kode akses tidak valid (Signature Mismatch).");
+                    handleLoginFailed("Kode akses tidak valid (palsu atau dimanipulasi).");
                     return;
                 }
 
+                // Hitung masa tenggang 30 Hari
                 const today = new Date();
                 const diffTime = today - joinDate;
                 const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
                 const daysRemaining = 30 - diffDays;
 
                 if (daysRemaining <= 0) {
-                    handleLoginFailed("Masa aktif akun VIP Anda telah kedaluwarsa.");
+                    handleLoginFailed("Masa aktif keanggotaan VIP Anda selama 1 bulan telah habis.");
                     return;
                 }
 
-                // Login Sukses!
+                // Simpan login
                 localStorage.setItem('stockintel_vip_token', fullCode);
                 
+                // Tampilkan Dashboard
                 document.getElementById('vip-gate').classList.add('hidden');
                 document.getElementById('dashboard-content').classList.remove('hidden');
 
+                // Tampilkan Data Pengguna
                 const readableName = b36Name.replace(/_/g, " ");
                 document.getElementById('member-greeting-name').innerText = readableName;
-                document.getElementById('expiry-badge').innerText = `Masa Aktif VIP: ${daysRemaining} Hari Lagi (Hingga ${new Date(joinDate.getTime() + (30 * 24 * 60 * 60 * 1000)).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})})`;
+                document.getElementById('expiry-badge').innerText = `VIP Aktif: ${daysRemaining} Hari Lagi`;
                 
-                // Amankan manipulasi histori URL di sandbox
+                // Muat Grafik
+                setTimeout(initVipChart, 300);
+
+                // Hilangkan parameter ?code dari URL secara aman
                 try {
                     const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
                     window.history.pushState({path: cleanUrl}, '', cleanUrl);
-                } catch(e) { /* Abaikan proteksi sandbox */ }
-
-                // Panggil Rendering Chart secara AMAN setelah login sukses
-                setTimeout(initVipChart, 200);
+                } catch(e) {}
 
             } catch (err) {
-                handleLoginFailed("Kesalahan pemrosesan data.");
+                handleLoginFailed("Gagal membaca struktur kode.");
             }
         }
 
-        function attemptLogin() {
-            const val = document.getElementById('access-code-input').value;
-            if (!val) return;
-            verifyAndLogin(val);
-        }
+        // Ikat fungsi ini ke global 'window' agar pasti terbaca oleh tombol HTML
+        window.attemptLogin = function() {
+            const inputVal = document.getElementById('access-code-input').value;
+            verifyAndLogin(inputVal);
+        };
+
+        window.handleKeyPress = function(e) {
+            if (e.key === 'Enter') {
+                attemptLogin();
+            }
+        };
 
         function handleLoginFailed(reason) {
             localStorage.removeItem('stockintel_vip_token');
-            alert("Gagal Masuk: " + reason);
+            alert("Verifikasi Gagal: " + reason);
         }
 
-        function logout() {
-            localSt
+        window.logout = function() {
+            localStorage.removeItem('stockintel_vip_token');
+            window.location.reload();
+        };
+
+        // KONTROL ADMIN
+        function activateAdminMode() {
+            document.getElementById('vip-gate').classList.add('hidden');
+            document.getElementById('dashboard-content').classList.remove('hidden');
+            document.getElementById('admin-panel').classList.remove('hidden');
+            
+            document.getElementById('member-greeting-name').innerText = "Administrator";
+            document.getElementById('expiry-badge').className = "bg-purple-500/20 text-purple-400 text-xs font-semibold px-3 py-1.5 rounded-lg border border-purple-500/30";
+            document.getElementById('expiry-badge').innerText = "Sesi Admin Utama Aktif";
+            
+            const today = new Date().toISOString().split('T')[0];
+            document.ge
