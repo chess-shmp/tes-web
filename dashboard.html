@@ -32,7 +32,7 @@
         .glow-blue { box-shadow: 0 0 15px rgba(29, 78, 216, 0.4); }
         .glow-green { box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
         .glow-red { box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
-        /* Animasi berkedip untuk rekaman live */
+        
         @keyframes pulse-ring {
             0% { transform: scale(0.95); opacity: 0.5; }
             50% { transform: scale(1.1); opacity: 0.8; }
@@ -44,7 +44,7 @@
 <body class="bg-[#050A18] text-gray-100 min-h-screen antialiased">
 
     <!-- PORTAL GATE / LAYAR LOGIN (Tampil Jika Belum Verifikasi) -->
-    <div id="auth-gate" class="min-h-screen flex items-center justify-center px-4 bg-radial from-[#0b142d] to-[#050a18]">
+    <div id="auth-gate" class="min-h-screen flex items-center justify-center px-4 bg-[#050A18]">
         <div class="max-w-md w-full bg-brand-card rounded-3xl p-8 border border-gray-800 shadow-2xl space-y-6 text-center">
             <div class="flex flex-col items-center gap-3">
                 <img src="logo.png" alt="StockIntel Logo" class="h-16 object-contain" onerror="this.src='file_0000000019087208a2dc9c8217aa755a.png'">
@@ -61,7 +61,7 @@
 
             <div class="space-y-4">
                 <input id="portal-code-input" type="text" placeholder="Contoh: SI-20260605-8F3C" class="w-full text-center tracking-wider bg-brand-dark border border-gray-700 rounded-xl px-4 py-3.5 text-sm font-mono text-white focus:outline-none focus:border-brand-500 transition-all uppercase">
-                <button onclick="verifyAccessCode()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3 rounded-xl transition-all glow-blue">
+                <button id="btn-verify" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3.5 rounded-xl transition-all glow-blue">
                     Verifikasi & Buka Portal
                 </button>
             </div>
@@ -82,16 +82,15 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-20">
                     <div class="flex items-center gap-4">
-                        <!-- Deteksi otomatis logo.png, jika gagal langsung fall back ke file asset orisinal -->
                         <img src="logo.png" alt="StockIntel Logo" class="h-10 md:h-14 object-contain" onerror="this.src='file_0000000019087208a2dc9c8217aa755a.png'">
                         <span class="bg-brand-500/20 text-brand-400 text-xs font-bold px-2.5 py-1 rounded-full border border-brand-500/30 uppercase tracking-widest">VIP Member</span>
                     </div>
                     <div class="flex items-center gap-3">
-                        <button id="btn-api-key" onclick="promptApiKey()" class="bg-brand-accent hover:bg-gray-800 text-xs text-gray-300 font-semibold px-4 py-2 rounded-full border border-gray-700 transition-all flex items-center gap-1.5">
+                        <button id="btn-api-key" class="bg-brand-accent hover:bg-gray-800 text-xs text-gray-300 font-semibold px-4 py-2 rounded-full border border-gray-700 transition-all flex items-center gap-1.5">
                             <i class="fas fa-key text-blue-400"></i>
                             <span id="api-key-status">Set API Key</span>
                         </button>
-                        <button onclick="logoutVIP()" class="bg-red-950/40 hover:bg-red-900/40 text-xs text-red-400 font-semibold px-3 py-2 rounded-lg border border-red-900/30">
+                        <button id="btn-logout" class="bg-red-950/40 hover:bg-red-900/40 text-xs text-red-400 font-semibold px-3 py-2 rounded-lg border border-red-900/30">
                             Keluar <i class="fas fa-sign-out-alt ml-1"></i>
                         </button>
                     </div>
@@ -122,13 +121,13 @@
                         <input id="admin-member-name" type="text" placeholder="Contoh: Budi Santoso" class="w-full bg-brand-dark border border-gray-700 rounded-xl px-3 py-2 text-sm text-white">
                     </div>
                     <div class="space-y-2">
-                        <label class="text-xs text-gray-400 font-semibold block">Tanggal Mulai Langganan (Hari Ini)</label>
+                        <label class="text-xs text-gray-400 font-semibold block">Tanggal Mulai Langganan</label>
                         <input id="admin-join-date" type="date" class="w-full bg-brand-dark border border-gray-700 rounded-xl px-3 py-2 text-sm text-white">
                     </div>
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-3">
-                    <button onclick="generateMemberLink()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold py-3 rounded-xl transition-all shadow-lg shadow-purple-900/50">
+                    <button id="btn-generate-link" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold py-3 rounded-xl transition-all shadow-lg shadow-purple-900/50">
                         Generate Link & Kode VIP
                     </button>
                 </div>
@@ -140,10 +139,10 @@
                         <p id="output-token-code" class="font-mono text-white bg-black/40 px-3 py-1.5 rounded-lg border border-gray-800 select-all"></p>
                     </div>
                     <div class="space-y-1">
-                        <span class="font-bold text-purple-400">Link Akses Langsung Member (Copy & Kirimkan):</span>
+                        <span class="font-bold text-purple-400">Link Akses Langsung Member:</span>
                         <p id="output-direct-url" class="font-mono text-white bg-black/40 px-3 py-1.5 rounded-lg border border-gray-800 break-all select-all"></p>
                     </div>
-                    <button onclick="copyGeneratedMessage()" class="w-full bg-purple-950/50 hover:bg-purple-950 text-purple-300 py-2 rounded-lg border border-purple-500/30 font-semibold">
+                    <button id="btn-copy-draft" class="w-full bg-purple-950/50 hover:bg-purple-950 text-purple-300 py-2 rounded-lg border border-purple-500/30 font-semibold">
                         <i class="fas fa-copy mr-1"></i> Salin Link & Draft Pesan WA
                     </button>
                 </div>
@@ -178,22 +177,22 @@
                         </div>
                     </div>
                     <div>
-                        <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-blue-500/20 uppercase tracking-widest">GEMINI 3.1 SUITE</span>
+                        <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-blue-500/20 uppercase tracking-widest">GEMINI AI PREMIUM SUITE</span>
                     </div>
                 </div>
 
                 <!-- Tabs Navigation -->
                 <div class="border-b border-gray-800 bg-brand-dark/30 px-6 flex overflow-x-auto gap-6 scrollbar-none">
-                    <button onclick="switchTab('tanya-ai')" id="tab-tanya-ai" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                    <button id="tab-tanya-ai" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
                         <i class="fas fa-comment-dots"></i> Tanya AI
                     </button>
-                    <button onclick="switchTab('analisa-grafik')" id="tab-analisa-grafik" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                    <button id="tab-analisa-grafik" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
                         <i class="fas fa-eye"></i> Analisa Grafik (Vision)
                     </button>
-                    <button onclick="switchTab('stress-test')" id="tab-stress-test" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                    <button id="tab-stress-test" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
                         <i class="fas fa-shield-halved"></i> Stress Test Portofolio
                     </button>
-                    <button onclick="switchTab('suara-live')" id="tab-suara-live" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                    <button id="tab-suara-live" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
                         <span class="w-2 h-2 rounded-full bg-red-500 pulse-active"></span> <i class="fas fa-phone-volume"></i> Asisten Suara Live
                     </button>
                 </div>
@@ -211,8 +210,8 @@
                             </div>
                         </div>
                         <div class="flex gap-2">
-                            <input id="chat-input" onkeydown="handleChatKey(event)" type="text" placeholder="Tanya analisis saham misal: 'Bagaimana prospek BBCA kuartal ini?'" class="flex-1 bg-[#070D1F] border border-gray-800 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all text-white">
-                            <button onclick="submitChat()" class="bg-blue-600 hover:bg-blue-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center transition-all glow-blue">
+                            <input id="chat-input" type="text" placeholder="Tanya analisis saham misal: 'Bagaimana prospek BBCA kuartal ini?'" class="flex-1 bg-[#070D1F] border border-gray-800 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all text-white">
+                            <button id="btn-chat-send" class="bg-blue-600 hover:bg-blue-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center transition-all glow-blue">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
@@ -237,25 +236,25 @@
                             <p id="vision-result-text" class="text-gray-300"></p>
                         </div>
 
-                        <p class="text-xs text-gray-400">Unggah tangkapan layar chart teknikal Anda. AI CMT (Chartered Market Technician) akan mendeteksi support, resistance, pola tren, & momentum.</p>
+                        <p class="text-xs text-gray-400">Unggah draf tangkapan layar chart teknikal Anda. AI CMT (Chartered Market Technician) akan mendeteksi support, resistance, pola tren, & momentum.</p>
                         
                         <!-- Drag & Drop Zone -->
-                        <div onclick="document.getElementById('file-input').click()" ondragover="event.preventDefault(); this.classList.add('border-blue-500')" ondragleave="this.classList.remove('border-blue-500')" ondrop="handleFileDrop(event)" class="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-8 text-center cursor-pointer transition-all bg-[#070D1F]/50 flex flex-col items-center justify-center gap-3">
-                            <input id="file-input" type="file" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
-                            <i class="fas fa-cloud-arrow-up text-4xl text-gray-500" id="upload-icon"></i>
-                            <span class="font-semibold text-sm text-gray-300" id="upload-status">Seret & lepas atau klik untuk memilih gambar</span>
+                        <div id="drop-zone" class="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-8 text-center cursor-pointer transition-all bg-[#070D1F]/50 flex flex-col items-center justify-center gap-3">
+                            <input id="file-input" type="file" accept="image/*" class="hidden">
+                            <i id="upload-icon" class="fas fa-cloud-arrow-up text-4xl text-gray-500"></i>
+                            <span id="upload-status" class="font-semibold text-sm text-gray-300">Seret & lepas atau klik untuk memilih gambar</span>
                             <span class="text-xs text-gray-500">Format: PNG, JPG, JPEG (Maks 4MB)</span>
                         </div>
 
                         <!-- Pratinjau Gambar -->
                         <div id="preview-container" class="hidden relative w-32 mx-auto rounded-xl border border-gray-700 overflow-hidden bg-brand-dark">
                             <img id="image-preview" src="" alt="Pratinjau chart" class="w-full h-auto object-cover">
-                            <button onclick="clearImagePreview(event)" class="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-600 hover:bg-red-500 flex items-center justify-center text-xs text-white shadow">
+                            <button id="btn-clear-preview" class="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-600 hover:bg-red-500 flex items-center justify-center text-xs text-white shadow">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
 
-                        <button onclick="startVisionAnalysis()" id="btn-run-vision" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3.5 rounded-2xl transition-all flex items-center justify-center gap-2 glow-blue">
+                        <button id="btn-run-vision" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3.5 rounded-2xl transition-all flex items-center justify-center gap-2 glow-blue">
                             <i class="fas fa-eye"></i> Mulai Analisis Pola Chart
                         </button>
                     </div>
@@ -270,6 +269,15 @@
                                     <input id="st-ticker" type="text" placeholder="Kode (BBCA)" class="col-span-2 bg-brand-dark border border-gray-700 rounded-xl px-3 py-2 text-sm text-white uppercase">
                                     <input id="st-weight" type="number" placeholder="Porsi %" class="bg-brand-dark border border-gray-700 rounded-xl px-3 py-2 text-sm text-white">
                                 </div>
-                                <button onclick="addStockToTest()" class="w-full bg-brand-accent hover:bg-gray-800 text-xs text-white py-2 rounded-xl border border-gray-700 transition-all font-semibold">
+                                <button id="btn-add-stock" class="w-full bg-brand-accent hover:bg-gray-800 text-xs text-white py-2 rounded-xl border border-gray-700 transition-all font-semibold">
                                     Masukkan ke Portofolio
-                 
+                                </button>
+                            </div>
+                            <div class="bg-[#070D1F] p-4 rounded-2xl border border-gray-800 flex flex-col justify-between">
+                                <div>
+                                    <h4 class="text-sm font-bold text-white flex items-center gap-1.5 mb-2"><i class="fas fa-list-check text-blue-400"></i> Alokasi Portofolio Anda</h4>
+                                    <div id="portfolio-list" class="space-y-1.5 text-xs text-gray-400 max-h-24 overflow-y-auto">
+                                        <p class="italic text-gray-500">Belum ada saham ditambahkan.</p>
+                                    </div>
+                                </div>
+                                <div class="text-right text-xs font-semibold 
