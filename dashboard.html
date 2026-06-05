@@ -43,38 +43,6 @@
 </head>
 <body class="bg-[#050A18] text-gray-100 min-h-screen antialiased">
 
-    <!-- PORTAL GATE / LAYAR LOGIN (Tampil Jika Belum Verifikasi) -->
-    <div id="auth-gate" class="min-h-screen flex items-center justify-center px-4 bg-[#050A18]">
-        <div class="max-w-md w-full bg-brand-card rounded-3xl p-8 border border-gray-800 shadow-2xl space-y-6 text-center">
-            <div class="flex flex-col items-center gap-3">
-                <img src="logo.png" alt="StockIntel Logo" class="h-16 object-contain" onerror="this.onerror=null; this.src='file_0000000019087208a2dc9c8217aa755a.png';">
-                <span class="bg-brand-500/20 text-brand-400 text-xs font-bold px-3 py-1 rounded-full border border-brand-500/30 uppercase tracking-widest">VIP Portal Access</span>
-            </div>
-            
-            <div class="space-y-2">
-                <h2 class="text-xl font-bold text-white">Masukkan Kode Akses</h2>
-                <p class="text-xs text-gray-400">Silakan masukkan kode akses VIP Anda yang valid untuk membuka seluruh fitur analisis StockIntel.</p>
-            </div>
-
-            <!-- Pesan Kesalahan / Notifikasi -->
-            <div id="auth-error" class="hidden bg-red-950/30 border border-red-500/30 text-red-400 text-xs p-3 rounded-xl"></div>
-
-            <div class="space-y-4">
-                <input id="portal-code-input" type="text" placeholder="Contoh: SI-20260605-8F3C" class="w-full text-center tracking-wider bg-brand-dark border border-gray-700 rounded-xl px-4 py-3.5 text-sm font-mono text-white focus:outline-none focus:border-brand-500 transition-all uppercase">
-                <button id="btn-verify" onclick="verifyAccessCode()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3.5 rounded-xl transition-all glow-blue">
-                    Verifikasi & Buka Portal
-                </button>
-            </div>
-
-            <div class="border-t border-gray-800 pt-4 text-xs space-y-2">
-                <p class="text-gray-500">Belum punya kode akses atau ingin berlangganan?</p>
-                <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20berlangganan%20VIP%20dan%20mendapatkan%20kode%20akses." target="_blank" class="text-brand-400 hover:underline font-semibold flex items-center justify-center gap-1">
-                    <i class="fab fa-whatsapp"></i> Hubungi Admin WhatsApp
-                </a>
-            </div>
-        </div>
-    </div>
-
     <!-- DASHBOARD CONTENT (Tersembunyi Sebelum Berhasil Login) -->
     <div id="main-dashboard" class="hidden">
         <!-- Navbar VIP -->
