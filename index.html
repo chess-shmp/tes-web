@@ -4,19 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StockIntel - Investasi Tenang & Terukur</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            400: '#3B82F6',
-                            500: '#1D4ED8',
-                            600: '#1E3A8A',
-                            dark: '#0B132B',
-                            card: '#111C3A'
+                            400: '#3B82F6', // Royal Blue Terang
+                            500: '#1D4ED8', // Royal Blue Utama
+                            600: '#1E3A8A', // Dark Royal Blue
+                            dark: '#050A18', // Deep Navy Background
+                            card: '#111C3A', // Card Background
+                            accent: '#1E293B'
                         }
                     },
                     fontFamily: {
@@ -34,28 +37,37 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .glow { box-shadow: 0 0 20px rgba(29, 78, 216, 0.5); }
+        .glow-blue { box-shadow: 0 0 20px rgba(29, 78, 216, 0.4); }
+        .glow-green { box-shadow: 0 0 20px rgba(34, 197, 94, 0.4); }
     </style>
 </head>
-<body class="bg-brand-dark text-white antialiased">
+<body class="bg-[#050A18] text-gray-100 min-h-screen antialiased">
 
-    <!-- Navbar -->
-    <nav class="fixed w-full z-50 bg-brand-dark/95 backdrop-blur-md border-b border-brand-600/30">
+    <!-- NAVIGATION BAR -->
+    <nav class="fixed w-full z-50 bg-[#050A18]/90 backdrop-blur-md border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
+                <!-- Brand Logo (Transparan tanpa background putih sesuai request) -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="#" class="flex items-center gap-2">
-                        <img src="logo.png" alt="StockIntel Logo" class="h-10 md:h-14 object-contain">
+                        <img src="logo.png" alt="StockIntel Logo" class="h-10 md:h-14 object-contain" onerror="this.src='file_0000000019087208a2dc9c8217aa755a.png'">
                     </a>
                 </div>
-                <div class="hidden md:flex space-x-8 items-center">
+
+                <!-- Desktop Menu Navigation -->
+                <div class="hidden md:flex space-x-8 items-center text-sm font-semibold">
                     <a href="#fitur" class="text-gray-300 hover:text-white transition-colors">Fitur</a>
-                    <a href="#harga" class="text-gray-300 hover:text-white transition-colors">Harga</a>
-                    <a href="dashboard.html" class="text-gray-300 hover:text-white transition-colors">Portal VIP</a>
-                    <a href="dashboard.html" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-full font-medium transition-all transform hover:scale-105">
-                        Mulai Sekarang
+                    <a href="#chart-section" class="text-gray-300 hover:text-white transition-colors">Live Chart</a>
+                    <a href="#harga" class="text-gray-300 hover:text-white transition-colors">Harga Premium</a>
+                    <a href="dashboard.html" class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                        <i class="fas fa-lock text-blue-400"></i> Portal VIP
+                    </a>
+                    <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20untuk%20bergabung%20dengan%20VIP%20Premium." target="_blank" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-full font-medium transition-all transform hover:scale-105 shadow-lg shadow-blue-900/30">
+                        Hubungi Admin
                     </a>
                 </div>
+
+                <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center">
                     <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
                         <i class="fas fa-bars text-2xl"></i>
@@ -63,18 +75,21 @@
                 </div>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-brand-card border-b border-gray-700">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#fitur" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-brand-600/50">Fitur</a>
-                <a href="#harga" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-brand-600/50">Harga</a>
-                <a href="dashboard.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-brand-600/50">Portal VIP</a>
-                <a href="dashboard.html" class="block px-3 py-2 mt-4 text-center rounded-md text-base font-medium bg-brand-500 text-white hover:bg-brand-600">Mulai Sekarang</a>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-card border-b border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-sm font-medium">
+                <a href="#fitur" class="block px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent/50">Fitur</a>
+                <a href="#chart-section" class="block px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent/50">Live Chart</a>
+                <a href="#harga" class="block px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent/50">Harga Premium</a>
+                <a href="dashboard.html" class="block px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent/50"><i class="fas fa-lock text-blue-400 mr-1.5"></i>Portal VIP</a>
+                <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20bergabung%20ke%20layanan%20VIP%20Premium." target="_blank" class="block px-3 py-2 text-center rounded-md bg-brand-500 text-white font-semibold">Hubungi Admin</a>
             </div>
         </div>
     </nav>
 
-    <!-- Real-time Market Ticker -->
-    <div class="pt-20 border-b border-brand-600/30 bg-brand-dark">
+    <!-- REAL-TIME TRADINGVIEW TICKER TAPE -->
+    <div class="pt-20 border-b border-gray-800 bg-[#050A18]">
         <div class="tradingview-widget-container">
             <div class="tradingview-widget-container__widget"></div>
             <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
@@ -84,7 +99,7 @@
                 { "proName": "FOREXCOM:SPXUSD", "title": "S&P 500" },
                 { "proName": "FOREXCOM:NSXUSD", "title": "Nasdaq 100" },
                 { "proName": "FOREXCOM:DJI", "title": "Dow Jones" },
-                { "proName": "OANDA:XAUUSD", "title": "Gold" },
+                { "proName": "OANDA:XAUUSD", "title": "Emas (XAU)" },
                 { "proName": "FX_IDC:USDIDR", "title": "USD/IDR" }
             ],
             "showSymbolLogo": true,
@@ -97,216 +112,212 @@
         </div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="relative pt-20 pb-32 overflow-hidden">
+    <!-- HERO SECTION -->
+    <section class="relative pt-16 pb-24 overflow-hidden">
+        <!-- Radial Background Glow -->
         <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-full overflow-hidden -z-10">
-            <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-brand-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-40"></div>
-            <div class="absolute top-[20%] right-[-10%] w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-[128px] opacity-20"></div>
+            <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-brand-500 rounded-full mix-blend-multiply filter blur-[120px] opacity-25"></div>
+            <div class="absolute top-[20%] right-[-10%] w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-[120px] opacity-15"></div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-16">
-            <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-                Investasi Cerdas, <br class="hidden md:block" />
-                <span class="gradient-text">Pikiran Tenang</span>
-            </h1>
-            <p class="mt-4 text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-                StockIntel menyediakan riset pasar, ringkasan harian, dan ide investasi terkurasi untuk membantu Anda mengambil keputusan finansial tanpa perlu memelototi layar seharian.
-            </p>
-            
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20bergabung%20dengan%20komunitas%20dan%20mendapatkan%20akses%20premium." target="_blank" class="bg-[#25D366] hover:bg-[#20bd5a] text-white px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:-translate-y-1 glow flex items-center justify-center gap-2 shadow-lg shadow-green-900/50">
-                    <i class="fab fa-whatsapp text-xl"></i> Bergabung Sekarang
-                </a>
-                <a href="#fitur" class="bg-brand-card hover:bg-gray-800 border border-gray-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-colors flex items-center justify-center gap-2">
-                    Pelajari Lebih Lanjut
-                </a>
+        <div class="max-w-5xl mx-auto px-4 text-center space-y-8">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-500/10 border border-brand-500/20 rounded-full text-xs text-brand-400 font-semibold tracking-wide">
+                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-ping"></span>
+                PREMIUM MARKET INTELLIGENCE
             </div>
+            
+            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-none text-white">
+                Membangun Kekayaan dengan <br/>
+                <span class="gradient-text">Pikiran yang Tenang</span>
+            </h1>
 
-            <!-- Dashboard Mockup Preview with Interactive IHSG Chart -->
-            <div class="mt-20 relative mx-auto max-w-5xl">
-                <div class="rounded-xl border border-gray-700 bg-brand-card shadow-2xl overflow-hidden relative z-10">
-                    <div class="border-b border-gray-700 bg-gray-900/50 px-4 py-3 flex items-center gap-2">
-                        <div class="flex gap-1.5">
-                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                        </div>
-                        <div class="mx-auto text-xs text-gray-500 font-mono">app.StockIntel.com/summary</div>
-                    </div>
-                    <div class="p-4 md:p-6 bg-brand-card">
-                        <h3 class="text-lg font-semibold text-white text-left mb-4 flex items-center gap-2">
-                            <i class="fas fa-chart-line text-brand-400"></i> Chart Real-Time IHSG (Composite Index)
-                        </h3>
-                        <div style="height: 400px; width: 100%;">
-                            <!-- TradingView Widget BEGIN -->
-                            <div class="tradingview-widget-container" style="height:100%;width:100%;">
-                                <div id="tradingview_ihsg" style="height:100%;width:100%;"></div>
-                                <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-                                <script type="text/javascript">
-                                new TradingView.widget(
-                                {
-                                "width": "100%",
-                                "height": "100%",
-                                "symbol": "IDX:COMPOSITE",
-                                "interval": "D",
-                                "timezone": "Asia/Jakarta",
-                                "theme": "dark",
-                                "style": "1",
-                                "locale": "id",
-                                "toolbar_bg": "#111C3A",
-                                "enable_publishing": false,
-                                "hide_top_toolbar": true,
-                                "hide_legend": false,
-                                "save_image": false,
-                                "container_id": "tradingview_ihsg"
-                                }
-                                );
-                                </script>
-                            </div>
-                            <!-- TradingView Widget END -->
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute -inset-1 bg-gradient-to-r from-brand-500 to-blue-300 rounded-xl blur opacity-20 z-0"></div>
+            <p class="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto leading-relaxed">
+                StockIntel adalah partner riset independen andalan Anda. Kami memfilter kebisingan pasar untuk membawakan Anda ide investasi terkurasi, analisis fundamental mendalam, dan ulasan makro terukur.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20bergabung%20VIP%20Premium%20dan%20mendapatkan%20akses%20penuh." target="_blank" class="bg-[#25D366] hover:bg-[#20bd5a] text-white px-8 py-4 rounded-full font-bold text-base transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 glow-green">
+                    <i class="fab fa-whatsapp text-lg"></i> Gabung VIP Sekarang
+                </a>
+                <a href="dashboard.html" class="bg-brand-card hover:bg-brand-accent/50 border border-gray-800 text-white px-8 py-4 rounded-full font-semibold text-base transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-lock text-brand-400"></i> Buka Portal VIP
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="fitur" class="py-24 bg-brand-dark border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-white mb-4">Mengapa Memilih StockIntel?</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">Kami memfilter kebisingan pasar, memberikan Anda intisari informasi yang benar-benar penting untuk portofolio Anda.</p>
+    <!-- INTERACTIVE CHART PREVIEW -->
+    <section id="chart-section" class="py-16 bg-[#070D1F] border-t border-b border-gray-800">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-10 space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white flex items-center justify-center gap-2">
+                    <i class="fas fa-chart-line text-brand-400"></i> Pantauan Live IHSG Hari Ini
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-400">Gunakan chart interaktif di bawah ini untuk menganalisis pergerakan bursa domestik secara langsung.</p>
+            </div>
+
+            <div class="rounded-2xl border border-gray-800 bg-brand-card overflow-hidden shadow-2xl relative">
+                <!-- Browser Bar Mockup -->
+                <div class="border-b border-gray-800 bg-[#050A18]/70 px-4 py-3.5 flex items-center gap-2">
+                    <div class="flex gap-1.5">
+                        <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+                    </div>
+                    <div class="mx-auto text-[11px] text-gray-500 font-mono select-none">stockintel.com/terminal-composite</div>
+                </div>
+
+                <!-- TradingView Chart Container -->
+                <div style="height: 480px; width: 100%;">
+                    <div class="tradingview-widget-container" style="height:100%;width:100%;">
+                        <div id="tradingview_composite" style="height:100%;width:100%;"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                        <script type="text/javascript">
+                        new TradingView.widget(
+                        {
+                        "width": "100%",
+                        "height": "100%",
+                        "symbol": "IDX:COMPOSITE",
+                        "interval": "D",
+                        "timezone": "Asia/Jakarta",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "id",
+                        "toolbar_bg": "#111C3A",
+                        "enable_publishing": false,
+                        "hide_top_toolbar": false,
+                        "hide_legend": false,
+                        "save_image": false,
+                        "container_id": "tradingview_composite"
+                        }
+                        );
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section id="fitur" class="py-20 bg-[#050A18]">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-16 space-y-2">
+                <h2 class="text-3xl font-extrabold text-white">Layanan Riset Kelas Institusi</h2>
+                <p class="text-sm text-gray-400">Kami mengabaikan kebisingan rumor harian untuk membawakan fakta fundamental yang valid.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-colors">
-                    <div class="w-14 h-14 bg-brand-500/20 rounded-xl flex items-center justify-center mb-6 text-brand-400">
-                        <i class="fas fa-file-alt text-2xl"></i>
+                <!-- Feature Card 1 -->
+                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300">
+                    <div class="w-12 h-12 bg-brand-500/10 border border-brand-500/20 rounded-xl flex items-center justify-center mb-6 text-brand-400">
+                        <i class="fas fa-file-invoice-dollar text-xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Ringkasan Bebas Bias</h3>
-                    <p class="text-gray-400">Bacaan 5 menit setiap pagi dan sore. Merangkum pergerakan pasar, berita emiten, dan makroekonomi dengan bahasa manusia, bukan jargon.</p>
+                    <h3 class="text-lg font-bold text-white mb-3">Daily Market Briefing</h3>
+                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">Rangkuman tajam pergerakan bursa saham domestik dan internasional yang dikirimkan setiap pagi dan sore hari langsung untuk Anda.</p>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-colors">
-                    <div class="w-14 h-14 bg-brand-500/20 rounded-xl flex items-center justify-center mb-6 text-brand-400">
-                        <i class="fas fa-search-dollar text-2xl"></i>
+
+                <!-- Feature Card 2 -->
+                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300">
+                    <div class="w-12 h-12 bg-brand-500/10 border border-brand-500/20 rounded-xl flex items-center justify-center mb-6 text-brand-400">
+                        <i class="fas fa-folder-open text-xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Ide Investasi Terkurasi</h3>
-                    <p class="text-gray-400">Bukan grup pom-pom. Kami membagikan analisa mendalam (deep-dive) pada saham-saham pilihan dengan fundamental kuat dan valuasi masuk akal.</p>
+                    <h3 class="text-lg font-bold text-white mb-3">Analisis Deep-Dive</h3>
+                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">Laporan kupas tuntas bedah fundamental, tata kelola, prospek industri, serta estimasi valuasi wajar emiten potensial di bursa IHSG.</p>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-colors">
-                    <div class="w-14 h-14 bg-brand-500/20 rounded-xl flex items-center justify-center mb-6 text-brand-400">
-                        <i class="fas fa-shield-alt text-2xl"></i>
+
+                <!-- Feature Card 3 -->
+                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300">
+                    <div class="w-12 h-12 bg-brand-500/10 border border-brand-500/20 rounded-xl flex items-center justify-center mb-6 text-brand-400">
+                        <i class="fas fa-shield-halved text-xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Manajemen Risiko</h3>
-                    <p class="text-gray-400">Fokus pada perlindungan modal. Kami selalu menyertakan skenario terburuk dan batas toleransi risiko untuk setiap ide investasi.</p>
+                    <h3 class="text-lg font-bold text-white mb-3">Alokasi & Manajemen Risiko</h3>
+                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">Kami mementingkan keselamatan modal terlebih dahulu. Setiap ide analisis selalu dibarengi target cut-loss dan porsi alokasi yang disarankan.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section id="harga" class="py-24 bg-brand-card">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-white mb-4">Mulai Perjalanan Tenang Anda</h2>
-                <p class="text-gray-400">Investasi pada pengetahuan memberikan imbal hasil terbaik. Bergabunglah dengan komunitas eksklusif kami.</p>
+    <!-- PRICING SECTION -->
+    <section id="harga" class="py-20 bg-[#070D1F] border-t border-gray-800">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-16 space-y-2">
+                <h2 class="text-3xl font-extrabold text-white">Satu Paket, Akses Tak Terbatas</h2>
+                <p class="text-sm text-gray-400">Investasi pada pengetahuan dan ketenangan pikiran adalah keputusan keuangan terbaik Anda.</p>
             </div>
 
-            <div class="bg-brand-dark rounded-3xl p-8 md:p-12 border border-brand-500/30 shadow-2xl relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wide">
-                    Paling Populer
+            <div class="bg-brand-card rounded-3xl p-8 md:p-12 border border-brand-500/30 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-brand-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-widest">
+                    VIP ACCESS
                 </div>
-                
-                <div class="md:flex justify-between items-center">
-                    <div class="mb-8 md:mb-0">
-                        <h3 class="text-2xl font-bold mb-2">StockIntel Premium</h3>
-                        <p class="text-gray-400 mb-6">Akses penuh ke semua riset dan komunitas.</p>
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-4xl font-extrabold text-white">Rp 200.000</span>
-                            <span class="text-gray-400">/ bulan</span>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold text-white">StockIntel VIP Premium</h3>
+                        <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">Dapatkan seluruh ulasan fundamental eksklusif, analisis teknikal mingguan, serta panduan alokasi dana.</p>
+                        <div class="flex items-baseline gap-1 pt-2">
+                            <span class="text-4xl font-extrabold text-white tracking-tight">Rp 200.000</span>
+                            <span class="text-gray-400 text-xs font-semibold">/ bulan</span>
                         </div>
                     </div>
 
-                    <div class="flex-1 md:ml-12">
-                        <ul class="space-y-4 mb-8">
+                    <div class="space-y-6">
+                        <ul class="space-y-3.5 text-xs sm:text-sm">
                             <li class="flex items-center gap-3">
-                                <i class="fas fa-check-circle text-green-400"></i>
+                                <i class="fas fa-circle-check text-green-400 text-lg"></i>
                                 <span class="text-gray-300">Daily Market Update (Pagi & Sore)</span>
                             </li>
                             <li class="flex items-center gap-3">
-                                <i class="fas fa-check-circle text-green-400"></i>
-                                <span class="text-gray-300">Akses ke Grup Telegram Eksklusif</span>
+                                <i class="fas fa-circle-check text-green-400 text-lg"></i>
+                                <span class="text-gray-300">Akses Grup Telegram Diskusi VIP</span>
                             </li>
                             <li class="flex items-center gap-3">
-                                <i class="fas fa-check-circle text-green-400"></i>
-                                <span class="text-gray-300">2x Deep-Dive Report per Bulan</span>
+                                <i class="fas fa-circle-check text-green-400 text-lg"></i>
+                                <span class="text-gray-300">Laporan Analisis Deep-Dive Bulanan</span>
                             </li>
                             <li class="flex items-center gap-3">
-                                <i class="fas fa-check-circle text-green-400"></i>
-                                <span class="text-gray-300">Q&A Session Bulanan</span>
+                                <i class="fas fa-circle-check text-green-400 text-lg"></i>
+                                <span class="text-gray-300">Konsultasi Portofolio Langsung dengan Tim</span>
                             </li>
                         </ul>
-                        <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20ingin%20berlangganan%20StockIntel%20Premium%20Rp%20200.000/bulan.%20Bagaimana%20cara%20pembayarannya?" target="_blank" class="block w-full bg-[#25D366] hover:bg-[#20bd5a] text-white text-center px-6 py-4 rounded-xl font-bold transition-all shadow-lg shadow-green-900/30 flex justify-center items-center gap-2">
-                            <i class="fab fa-whatsapp text-xl"></i> Daftar Sekarang via WhatsApp
+
+                        <!-- Direct WhatsApp Payment Redirection -->
+                        <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20untuk%20berlangganan%20VIP%20Premium%20Rp%20200.000/bulan.%20Bagaimana%20prosedur%20pendaftarannya?" target="_blank" class="block w-full bg-[#25D366] hover:bg-[#20bd5a] text-center text-white py-4 rounded-xl font-bold text-sm transition-all shadow-lg shadow-green-950/50 flex justify-center items-center gap-2 glow-green">
+                            <i class="fab fa-whatsapp text-lg"></i> Hubungi Admin via WhatsApp
                         </a>
-                        <p class="text-center text-xs text-gray-500 mt-3">*Anda akan diarahkan ke admin WhatsApp kami</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-[#060a17] pt-16 pb-8 border-t border-gray-800">
+    <!-- FOOTER -->
+    <footer class="bg-[#050A18] pt-16 pb-8 border-t border-gray-800 text-xs sm:text-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-                <div class="col-span-1 md:col-span-2">
-                    <div class="flex items-center gap-2 mb-4">
-                        <img src="logo.png" alt="StockIntel Logo" class="h-12 md:h-16 object-contain">
+                <div class="col-span-1 md:col-span-2 space-y-4">
+                    <!-- Brand Logo footer (Tanpa box putih) -->
+                    <div class="flex items-center gap-2">
+                        <img src="logo.png" alt="StockIntel Logo" class="h-12 md:h-16 object-contain" onerror="this.src='file_0000000019087208a2dc9c8217aa755a.png'">
                     </div>
-                    <p class="text-gray-400 max-w-sm">
-                        Membangun kekayaan dengan ketenangan pikiran. StockIntel adalah rekan diskusi investasi independen Anda.
+                    <p class="text-gray-400 max-w-sm leading-relaxed text-xs">
+                        Membangun pertumbuhan kekayaan jangka panjang melalui analisis fundamental independen dan disiplin pengelolaan risiko yang matang.
                     </p>
                 </div>
                 <div>
-                    <h4 class="text-white font-semibold mb-4">Tautan</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors">Tentang Kami</a></li>
-                        <li><a href="#fitur" class="text-gray-400 hover:text-brand-400 transition-colors">Fitur</a></li>
-                        <li><a href="#harga" class="text-gray-400 hover:text-brand-400 transition-colors">Harga</a></li>
+                    <h4 class="text-white font-semibold mb-4">Navigasi Cepat</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#fitur" class="text-gray-400 hover:text-brand-400 transition-colors">Layanan & Fitur</a></li>
+                        <li><a href="#chart-section" class="text-gray-400 hover:text-brand-400 transition-colors">Terminal Live Chart</a></li>
+                        <li><a href="#harga" class="text-gray-400 hover:text-brand-400 transition-colors">Paket VIP Premium</a></li>
+                        <li><a href="dashboard.html" class="text-gray-400 hover:text-brand-400 transition-colors">Portal Login Anggota</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-semibold mb-4">Legal</h4>
-                    <ul class="space-y-2">
+                    <h4 class="text-white font-semibold mb-4">Kebijakan & Legal</h4>
+                    <ul class="space-y-2 text-xs">
                         <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors">Syarat & Ketentuan</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors">Disclaimer Risiko</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors">Disclaimer Risiko Investasi</a></li>
                     </ul>
                 </div>
-            </div>
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-gray-500 text-sm">
-                    &copy; 2026 StockIntel. Hak cipta dilindungi.
-                </p>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube text-xl"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Mobile Menu Script -->
-    <script>
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-    </script>
-</body>
-</html>
+            </d
