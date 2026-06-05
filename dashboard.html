@@ -27,7 +27,7 @@
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
         .glow-blue { box-shadow: 0 0 15px rgba(29, 78, 216, 0.4); }
         .glow-green { box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
@@ -61,7 +61,7 @@
 
             <div class="space-y-4">
                 <input id="portal-code-input" type="text" placeholder="Contoh: SI-20260605-8F3C" class="w-full text-center tracking-wider bg-brand-dark border border-gray-700 rounded-xl px-4 py-3.5 text-sm font-mono text-white focus:outline-none focus:border-brand-500 transition-all uppercase">
-                <button id="btn-verify" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3.5 rounded-xl transition-all glow-blue">
+                <button id="btn-verify" onclick="verifyAccessCode()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3.5 rounded-xl transition-all glow-blue">
                     Verifikasi & Buka Portal
                 </button>
             </div>
@@ -86,11 +86,11 @@
                         <span class="bg-brand-500/20 text-brand-400 text-xs font-bold px-2.5 py-1 rounded-full border border-brand-500/30 uppercase tracking-widest">VIP Member</span>
                     </div>
                     <div class="flex items-center gap-3">
-                        <button id="btn-api-key" class="bg-brand-accent hover:bg-gray-800 text-xs text-gray-300 font-semibold px-4 py-2 rounded-full border border-gray-700 transition-all flex items-center gap-1.5">
+                        <button id="btn-api-key" onclick="promptApiKey()" class="bg-brand-accent hover:bg-gray-800 text-xs text-gray-300 font-semibold px-4 py-2 rounded-full border border-gray-700 transition-all flex items-center gap-1.5">
                             <i class="fas fa-key text-blue-400"></i>
                             <span id="api-key-status">Set API Key</span>
                         </button>
-                        <button id="btn-logout" class="bg-red-950/40 hover:bg-red-900/40 text-xs text-red-400 font-semibold px-3 py-2 rounded-lg border border-red-900/30">
+                        <button id="btn-logout" onclick="logoutVIP()" class="bg-red-950/40 hover:bg-red-900/40 text-xs text-red-400 font-semibold px-3 py-2 rounded-lg border border-red-900/30">
                             Keluar <i class="fas fa-sign-out-alt ml-1"></i>
                         </button>
                     </div>
@@ -127,7 +127,7 @@
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-3">
-                    <button id="btn-generate-link" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold py-3 rounded-xl transition-all shadow-lg shadow-purple-900/50">
+                    <button id="btn-generate-link" onclick="generateMemberLink()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold py-3 rounded-xl transition-all shadow-lg shadow-purple-900/50">
                         Generate Link & Kode VIP
                     </button>
                 </div>
@@ -142,7 +142,7 @@
                         <span class="font-bold text-purple-400">Link Akses Langsung Member:</span>
                         <p id="output-direct-url" class="font-mono text-white bg-black/40 px-3 py-1.5 rounded-lg border border-gray-800 break-all select-all"></p>
                     </div>
-                    <button id="btn-copy-draft" class="w-full bg-purple-950/50 hover:bg-purple-950 text-purple-300 py-2 rounded-lg border border-purple-500/30 font-semibold">
+                    <button id="btn-copy-draft" onclick="copyGeneratedMessage()" class="w-full bg-purple-950/50 hover:bg-purple-950 text-purple-300 py-2 rounded-lg border border-purple-500/30 font-semibold">
                         <i class="fas fa-copy mr-1"></i> Salin Link & Draft Pesan WA
                     </button>
                 </div>
@@ -183,16 +183,16 @@
 
                 <!-- Tabs Navigation -->
                 <div class="border-b border-gray-800 bg-brand-dark/30 px-6 flex overflow-x-auto gap-6 scrollbar-none">
-                    <button id="tab-tanya-ai" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                    <button id="tab-tanya-ai" onclick="switchTab('tanya-ai')" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
                         <i class="fas fa-comment-dots"></i> Tanya AI
                     </button>
-                    <button id="tab-analisa-grafik" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                    <button id="tab-analisa-grafik" onclick="switchTab('analisa-grafik')" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
                         <i class="fas fa-eye"></i> Analisa Grafik (Vision)
                     </button>
-                    <button id="tab-stress-test" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                    <button id="tab-stress-test" onclick="switchTab('stress-test')" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
                         <i class="fas fa-shield-halved"></i> Stress Test Portofolio
                     </button>
-                    <button id="tab-suara-live" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                    <button id="tab-suara-live" onclick="switchTab('suara-live')" class="py-4 text-sm font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
                         <span class="w-2 h-2 rounded-full bg-red-500 pulse-active"></span> <i class="fas fa-phone-volume"></i> Asisten Suara Live
                     </button>
                 </div>
@@ -210,8 +210,8 @@
                             </div>
                         </div>
                         <div class="flex gap-2">
-                            <input id="chat-input" type="text" placeholder="Tanya analisis saham misal: 'Bagaimana prospek BBCA kuartal ini?'" class="flex-1 bg-[#070D1F] border border-gray-800 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all text-white">
-                            <button id="btn-chat-send" class="bg-blue-600 hover:bg-blue-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center transition-all glow-blue">
+                            <input id="chat-input" onkeydown="handleChatKey(event)" type="text" placeholder="Tanya analisis saham misal: 'Bagaimana prospek BBCA kuartal ini?'" class="flex-1 bg-[#070D1F] border border-gray-800 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all text-white">
+                            <button id="btn-chat-send" onclick="submitChat()" class="bg-blue-600 hover:bg-blue-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center transition-all glow-blue">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
@@ -239,8 +239,8 @@
                         <p class="text-xs text-gray-400">Unggah draf tangkapan layar chart teknikal Anda. AI CMT (Chartered Market Technician) akan mendeteksi support, resistance, pola tren, & momentum.</p>
                         
                         <!-- Drag & Drop Zone -->
-                        <div id="drop-zone" class="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-8 text-center cursor-pointer transition-all bg-[#070D1F]/50 flex flex-col items-center justify-center gap-3">
-                            <input id="file-input" type="file" accept="image/*" class="hidden">
+                        <div id="drop-zone" onclick="triggerFileInput()" class="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-8 text-center cursor-pointer transition-all bg-[#070D1F]/50 flex flex-col items-center justify-center gap-3">
+                            <input id="file-input" type="file" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
                             <i id="upload-icon" class="fas fa-cloud-arrow-up text-4xl text-gray-500"></i>
                             <span id="upload-status" class="font-semibold text-sm text-gray-300">Seret & lepas atau klik untuk memilih gambar</span>
                             <span class="text-xs text-gray-500">Format: PNG, JPG, JPEG (Maks 4MB)</span>
@@ -249,12 +249,12 @@
                         <!-- Pratinjau Gambar -->
                         <div id="preview-container" class="hidden relative w-32 mx-auto rounded-xl border border-gray-700 overflow-hidden bg-brand-dark">
                             <img id="image-preview" src="" alt="Pratinjau chart" class="w-full h-auto object-cover">
-                            <button id="btn-clear-preview" class="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-600 hover:bg-red-500 flex items-center justify-center text-xs text-white shadow">
+                            <button id="btn-clear-preview" onclick="clearImagePreview(event)" class="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-600 hover:bg-red-500 flex items-center justify-center text-xs text-white shadow">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
 
-                        <button id="btn-run-vision" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3.5 rounded-2xl transition-all flex items-center justify-center gap-2 glow-blue">
+                        <button id="btn-run-vision" onclick="startVisionAnalysis()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3.5 rounded-2xl transition-all flex items-center justify-center gap-2 glow-blue">
                             <i class="fas fa-eye"></i> Mulai Analisis Pola Chart
                         </button>
                     </div>
@@ -267,17 +267,12 @@
                                 <h4 class="text-sm font-bold text-white flex items-center gap-1.5"><i class="fas fa-plus text-blue-400"></i> Tambah Saham</h4>
                                 <div class="grid grid-cols-3 gap-2">
                                     <input id="st-ticker" type="text" placeholder="Kode (BBCA)" class="col-span-2 bg-brand-dark border border-gray-700 rounded-xl px-3 py-2 text-sm text-white uppercase">
-                                    <input id="st-weight" type="number" placeholder="Porsi %" class="bg-brand-dark border border-gray-700 rounded-xl px-3 py-2 text-sm text-white">
+                                    <input id="st-weight" type="number" placeholder="Porsi %" class="bg-brand-dark border border-gray-700 rounded-xl px-3 py-2 text-sm text-white" onkeydown="handleWeightKey(event)">
                                 </div>
-                                <button id="btn-add-stock" class="w-full bg-brand-accent hover:bg-gray-800 text-xs text-white py-2 rounded-xl border border-gray-700 transition-all font-semibold">
+                                <button id="btn-add-stock" onclick="addStockToTest()" class="w-full bg-brand-accent hover:bg-gray-800 text-xs text-white py-2 rounded-xl border border-gray-700 transition-all font-semibold">
                                     Masukkan ke Portofolio
                                 </button>
                             </div>
                             <div class="bg-[#070D1F] p-4 rounded-2xl border border-gray-800 flex flex-col justify-between">
                                 <div>
-                                    <h4 class="text-sm font-bold text-white flex items-center gap-1.5 mb-2"><i class="fas fa-list-check text-blue-400"></i> Alokasi Portofolio Anda</h4>
-                                    <div id="portfolio-list" class="space-y-1.5 text-xs text-gray-400 max-h-24 overflow-y-auto">
-                                        <p class="italic text-gray-500">Belum ada saham ditambahkan.</p>
-                                    </div>
-                                </div>
-                                <div 
+          
