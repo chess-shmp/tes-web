@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StockIntel - Investasi Tenang & Terukur</title>
-    <!-- Tailwind CSS -->
+    <title>StockIntel - VIP Member Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -14,16 +12,13 @@
                 extend: {
                     colors: {
                         brand: {
-                            400: '#3B82F6', // Royal Blue Terang
-                            500: '#1D4ED8', // Royal Blue Utama
-                            600: '#1E3A8A', // Dark Royal Blue
-                            dark: '#050A18', // Deep Navy Background
-                            card: '#111C3A', // Card Background
+                            400: '#3B82F6',
+                            500: '#1D4ED8',
+                            600: '#1E3A8A',
+                            dark: '#050A18',
+                            card: '#111C3A',
                             accent: '#1E293B'
                         }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
                     }
                 }
             }
@@ -31,293 +26,241 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .gradient-text {
-            background: linear-gradient(90deg, #60A5FA, #3B82F6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        body { font-family: 'Inter', sans-serif; }
+        .glow-blue { box-shadow: 0 0 15px rgba(29, 78, 216, 0.4); }
+        .glow-green { box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
+        .glow-red { box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(0.95); opacity: 0.5; }
         }
-        .glow-blue { box-shadow: 0 0 20px rgba(29, 78, 216, 0.4); }
-        .glow-green { box-shadow: 0 0 20px rgba(34, 197, 94, 0.4); }
+        .pulse-active { animation: pulse-ring 2s infinite ease-in-out; }
     </style>
 </head>
 <body class="bg-[#050A18] text-gray-100 min-h-screen antialiased">
 
-    <!-- NAVIGATION BAR -->
-    <nav class="fixed w-full z-50 bg-[#050A18]/90 backdrop-blur-md border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <!-- Brand Logo (Transparan tanpa background putih sesuai request) -->
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="#" class="flex items-center gap-2">
-                        <img src="logo.png" alt="StockIntel Logo" class="h-10 md:h-14 object-contain" onerror="this.src='file_0000000019087208a2dc9c8217aa755a.png'">
-                    </a>
-                </div>
-
-                <!-- Desktop Menu Navigation -->
-                <div class="hidden md:flex space-x-8 items-center text-sm font-semibold">
-                    <a href="#fitur" class="text-gray-300 hover:text-white transition-colors">Fitur</a>
-                    <a href="#chart-section" class="text-gray-300 hover:text-white transition-colors">Live Chart</a>
-                    <a href="#harga" class="text-gray-300 hover:text-white transition-colors">Harga Premium</a>
-                    <a href="dashboard.html" class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
-                        <i class="fas fa-lock text-blue-400"></i> Portal VIP
-                    </a>
-                    <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20untuk%20bergabung%20dengan%20VIP%20Premium." target="_blank" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-full font-medium transition-all transform hover:scale-105 shadow-lg shadow-blue-900/30">
-                        Hubungi Admin
-                    </a>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
+    <!-- PORTAL GATE / LAYAR LOGIN (Tampil Jika Belum Verifikasi) -->
+    <div id="auth-gate" class="min-h-screen flex items-center justify-center px-4 bg-radial from-[#0b142d] to-[#050a18]">
+        <div class="max-w-md w-full bg-brand-card rounded-3xl p-8 border border-gray-800 shadow-2xl space-y-6 text-center">
+            <div class="flex flex-col items-center gap-3">
+                <img src="logo.png" alt="StockIntel Logo" class="h-16 object-contain" onerror="this.onerror=null; this.src='file_0000000019087208a2dc9c8217aa755a.png'">
+                <span class="bg-brand-500/20 text-brand-400 text-xs font-bold px-3 py-1 rounded-full border border-brand-500/30 uppercase tracking-widest">VIP Portal Access</span>
             </div>
-        </div>
-
-        <!-- Mobile Dropdown Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-brand-card border-b border-gray-800">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-sm font-medium">
-                <a href="#fitur" class="block px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent/50">Fitur</a>
-                <a href="#chart-section" class="block px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent/50">Live Chart</a>
-                <a href="#harga" class="block px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent/50">Harga Premium</a>
-                <a href="dashboard.html" class="block px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-brand-accent/50"><i class="fas fa-lock text-blue-400 mr-1.5"></i>Portal VIP</a>
-                <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20bergabung%20ke%20layanan%20VIP%20Premium." target="_blank" class="block px-3 py-2 text-center rounded-md bg-brand-500 text-white font-semibold">Hubungi Admin</a>
+            
+            <div class="space-y-2">
+                <h2 class="text-xl font-bold text-white">Masukkan Kode Akses</h2>
+                <p class="text-xs text-gray-400">Silakan masukkan kode akses VIP Anda yang valid untuk membuka seluruh fitur analisis StockIntel.</p>
             </div>
-        </div>
-    </nav>
 
-    <!-- REAL-TIME TRADINGVIEW TICKER TAPE -->
-    <div class="pt-20 border-b border-gray-800 bg-[#050A18]">
-        <div class="tradingview-widget-container">
-            <div class="tradingview-widget-container__widget"></div>
-            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-            {
-            "symbols": [
-                { "proName": "IDX:COMPOSITE", "title": "IHSG" },
-                { "proName": "FOREXCOM:SPXUSD", "title": "S&P 500" },
-                { "proName": "FOREXCOM:NSXUSD", "title": "Nasdaq 100" },
-                { "proName": "FOREXCOM:DJI", "title": "Dow Jones" },
-                { "proName": "OANDA:XAUUSD", "title": "Emas (XAU)" },
-                { "proName": "FX_IDC:USDIDR", "title": "USD/IDR" }
-            ],
-            "showSymbolLogo": true,
-            "isTransparent": true,
-            "displayMode": "adaptive",
-            "colorTheme": "dark",
-            "locale": "id"
-            }
-            </script>
+            <!-- Pesan Kesalahan / Notifikasi -->
+            <div id="auth-error" class="hidden bg-red-950/30 border border-red-500/30 text-red-400 text-xs p-3 rounded-xl"></div>
+
+            <div class="space-y-4">
+                <input id="portal-code-input" type="text" placeholder="Contoh: SI-20260605-8F3C" class="w-full text-center tracking-wider bg-brand-dark border border-gray-700 rounded-xl px-4 py-3.5 text-sm font-mono text-white focus:outline-none focus:border-brand-500 transition-all uppercase">
+                <button onclick="verifyAccessCode()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3 rounded-xl transition-all glow-blue">
+                    Verifikasi & Buka Portal
+                </button>
+            </div>
+
+            <div class="border-t border-gray-800 pt-4 text-xs space-y-2">
+                <p class="text-gray-500">Belum punya kode akses atau ingin berlangganan?</p>
+                <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20berlangganan%20VIP%20dan%20mendapatkan%20kode%20akses." target="_blank" class="text-brand-400 hover:underline font-semibold flex items-center justify-center gap-1">
+                    <i class="fab fa-whatsapp"></i> Hubungi Admin WhatsApp
+                </a>
+            </div>
         </div>
     </div>
 
-    <!-- HERO SECTION -->
-    <section class="relative pt-16 pb-24 overflow-hidden">
-        <!-- Radial Background Glow -->
-        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-full overflow-hidden -z-10">
-            <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-brand-500 rounded-full mix-blend-multiply filter blur-[120px] opacity-25"></div>
-            <div class="absolute top-[20%] right-[-10%] w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-[120px] opacity-15"></div>
-        </div>
-
-        <div class="max-w-5xl mx-auto px-4 text-center space-y-8">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-500/10 border border-brand-500/20 rounded-full text-xs text-brand-400 font-semibold tracking-wide">
-                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-ping"></span>
-                PREMIUM MARKET INTELLIGENCE
-            </div>
-            
-            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-none text-white">
-                Membangun Kekayaan dengan <br/>
-                <span class="gradient-text">Pikiran yang Tenang</span>
-            </h1>
-
-            <p class="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto leading-relaxed">
-                StockIntel adalah partner riset independen andalan Anda. Kami memfilter kebisingan pasar untuk membawakan Anda ide investasi terkurasi, analisis fundamental mendalam, dan ulasan makro terukur.
-            </p>
-
-            <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-                <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20bergabung%20VIP%20Premium%20dan%20mendapatkan%20akses%20penuh." target="_blank" class="bg-[#25D366] hover:bg-[#20bd5a] text-white px-8 py-4 rounded-full font-bold text-base transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 glow-green">
-                    <i class="fab fa-whatsapp text-lg"></i> Gabung VIP Sekarang
-                </a>
-                <a href="dashboard.html" class="bg-brand-card hover:bg-brand-accent/50 border border-gray-800 text-white px-8 py-4 rounded-full font-semibold text-base transition-colors flex items-center justify-center gap-2">
-                    <i class="fas fa-lock text-brand-400"></i> Buka Portal VIP
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- INTERACTIVE CHART PREVIEW -->
-    <section id="chart-section" class="py-16 bg-[#070D1F] border-t border-b border-gray-800">
-        <div class="max-w-5xl mx-auto px-4">
-            <div class="text-center mb-10 space-y-2">
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-white flex items-center justify-center gap-2">
-                    <i class="fas fa-chart-line text-brand-400"></i> Pantauan Live IHSG Hari Ini
-                </h2>
-                <p class="text-xs sm:text-sm text-gray-400">Gunakan chart interaktif di bawah ini untuk menganalisis pergerakan bursa domestik secara langsung.</p>
-            </div>
-
-            <div class="rounded-2xl border border-gray-800 bg-brand-card overflow-hidden shadow-2xl relative">
-                <!-- Browser Bar Mockup -->
-                <div class="border-b border-gray-800 bg-[#050A18]/70 px-4 py-3.5 flex items-center gap-2">
-                    <div class="flex gap-1.5">
-                        <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+    <!-- DASHBOARD CONTENT (Tersembunyi Sebelum Berhasil Login) -->
+    <div id="main-dashboard" class="hidden">
+        <!-- Navbar VIP -->
+        <nav class="bg-brand-card/95 backdrop-blur border-b border-gray-800 sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <div class="flex items-center gap-4">
+                        <img src="logo.png" alt="StockIntel Logo" class="h-10 md:h-14 object-contain" onerror="this.onerror=null; this.src='file_0000000019087208a2dc9c8217aa755a.png'">
+                        <span class="bg-brand-500/20 text-brand-400 text-xs font-bold px-2.5 py-1 rounded-full border border-brand-500/30 uppercase tracking-widest">VIP Member</span>
                     </div>
-                    <div class="mx-auto text-[11px] text-gray-500 font-mono select-none">stockintel.com/terminal-composite</div>
-                </div>
-
-                <!-- TradingView Chart Container -->
-                <div style="height: 480px; width: 100%;">
-                    <div class="tradingview-widget-container" style="height:100%;width:100%;">
-                        <div id="tradingview_composite" style="height:100%;width:100%;"></div>
-                        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-                        <script type="text/javascript">
-                        new TradingView.widget(
-                        {
-                        "width": "100%",
-                        "height": "100%",
-                        "symbol": "IDX:COMPOSITE",
-                        "interval": "D",
-                        "timezone": "Asia/Jakarta",
-                        "theme": "dark",
-                        "style": "1",
-                        "locale": "id",
-                        "toolbar_bg": "#111C3A",
-                        "enable_publishing": false,
-                        "hide_top_toolbar": false,
-                        "hide_legend": false,
-                        "save_image": false,
-                        "container_id": "tradingview_composite"
-                        }
-                        );
-                        </script>
+                    <div class="flex items-center gap-3">
+                        <button id="btn-api-key" onclick="promptApiKey()" class="bg-brand-accent hover:bg-gray-800 text-xs text-gray-300 font-semibold px-4 py-2 rounded-full border border-gray-700 transition-all flex items-center gap-1.5">
+                            <i class="fas fa-key text-blue-400"></i>
+                            <span id="api-key-status">Set API Key</span>
+                        </button>
+                        <button onclick="logoutVIP()" class="bg-red-950/40 hover:bg-red-900/40 text-xs text-red-400 font-semibold px-3 py-2 rounded-lg border border-red-900/30">
+                            Keluar <i class="fas fa-sign-out-alt ml-1"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </nav>
 
-    <!-- FEATURES SECTION -->
-    <section id="fitur" class="py-20 bg-[#050A18]">
-        <div class="max-w-5xl mx-auto px-4">
-            <div class="text-center mb-16 space-y-2">
-                <h2 class="text-3xl font-extrabold text-white">Layanan Riset Kelas Institusi</h2>
-                <p class="text-sm text-gray-400">Kami mengabaikan kebisingan rumor harian untuk membawakan fakta fundamental yang valid.</p>
+        <!-- Main Container -->
+        <div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
+
+            <!-- ADMIN CODE GENERATOR PANEL (Hanya Muncul Jika Admin yang Login) -->
+            <div id="admin-panel" class="hidden bg-gradient-to-r from-purple-950/40 to-blue-950/40 rounded-3xl border border-purple-500/30 p-6 space-y-6 shadow-2xl">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 flex-shrink-0">
+                        <i class="fas fa-user-shield text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            StockIntel Administrator Control
+                        </h2>
+                        <p class="text-xs text-gray-400">Buat kode akses VIP khusus untuk member yang baru saja bergabung.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-xs text-gray-400 font-semibold block">Nama Member VIP</label>
+                        <input id="admin-member-name" type="text" placeholder="Contoh: Budi Santoso" class="w-full bg-brand-dark border border-gray-700 rounded-xl px-3 py-2 text-sm text-white">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs text-gray-400 font-semibold block">Tanggal Mulai Langganan (Hari Ini)</label>
+                        <input id="admin-join-date" type="date" class="w-full bg-brand-dark border border-gray-700 rounded-xl px-3 py-2 text-sm text-white">
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-3">
+                    <button onclick="generateMemberLink()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold py-3 rounded-xl transition-all shadow-lg shadow-purple-900/50">
+                        Generate Link & Kode VIP
+                    </button>
+                </div>
+
+                <!-- Hasil Generator Token -->
+                <div id="generator-output" class="hidden space-y-3 bg-brand-dark/80 p-4 rounded-xl border border-purple-800/30 text-xs">
+                    <div class="space-y-1">
+                        <span class="font-bold text-purple-400">Kode Token Ter-enkripsi:</span>
+                        <p id="output-token-code" class="font-mono text-white bg-black/40 px-3 py-1.5 rounded-lg border border-gray-800 select-all"></p>
+                    </div>
+                    <div class="space-y-1">
+                        <span class="font-bold text-purple-400">Link Akses Langsung Member (Copy & Kirimkan):</span>
+                        <p id="output-direct-url" class="font-mono text-white bg-black/40 px-3 py-1.5 rounded-lg border border-gray-800 break-all select-all"></p>
+                    </div>
+                    <button onclick="copyGeneratedMessage()" class="w-full bg-purple-950/50 hover:bg-purple-950 text-purple-300 py-2 rounded-lg border border-purple-500/30 font-semibold">
+                        <i class="fas fa-copy mr-1"></i> Salin Link & Draft Pesan WA
+                    </button>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Feature Card 1 -->
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300">
-                    <div class="w-12 h-12 bg-brand-500/10 border border-brand-500/20 rounded-xl flex items-center justify-center mb-6 text-brand-400">
-                        <i class="fas fa-file-invoice-dollar text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-3">Daily Market Briefing</h3>
-                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">Rangkuman tajam pergerakan bursa saham domestik dan internasional yang dikirimkan setiap pagi dan sore hari langsung untuk Anda.</p>
+            <!-- NOTIFIKASI STATUS AKTIF MEMBER -->
+            <div id="member-status-bar" class="bg-brand-card rounded-2xl border border-gray-800 p-4 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span class="text-gray-400">Status Akses: <strong class="text-white">AKTIF</strong></span>
                 </div>
-
-                <!-- Feature Card 2 -->
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300">
-                    <div class="w-12 h-12 bg-brand-500/10 border border-brand-500/20 rounded-xl flex items-center justify-center mb-6 text-brand-400">
-                        <i class="fas fa-folder-open text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-3">Analisis Deep-Dive</h3>
-                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">Laporan kupas tuntas bedah fundamental, tata kelola, prospek industri, serta estimasi valuasi wajar emiten potensial di bursa IHSG.</p>
-                </div>
-
-                <!-- Feature Card 3 -->
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300">
-                    <div class="w-12 h-12 bg-brand-500/10 border border-brand-500/20 rounded-xl flex items-center justify-center mb-6 text-brand-400">
-                        <i class="fas fa-shield-halved text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-3">Alokasi & Manajemen Risiko</h3>
-                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">Kami mementingkan keselamatan modal terlebih dahulu. Setiap ide analisis selalu dibarengi target cut-loss dan porsi alokasi yang disarankan.</p>
+                <div id="days-remaining-badge" class="bg-green-500/10 text-green-400 border border-green-500/20 px-3 py-1 rounded-full font-semibold">
+                    VIP Akses Aktif
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- PRICING SECTION -->
-    <section id="harga" class="py-20 bg-[#070D1F] border-t border-gray-800">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="text-center mb-16 space-y-2">
-                <h2 class="text-3xl font-extrabold text-white">Satu Paket, Akses Tak Terbatas</h2>
-                <p class="text-sm text-gray-400">Investasi pada pengetahuan dan ketenangan pikiran adalah keputusan keuangan terbaik Anda.</p>
+            <!-- FIVE CATEGORY MAIN TAB NAVIGATION -->
+            <div class="border-b border-gray-800 bg-brand-card/50 rounded-2xl p-2 flex overflow-x-auto gap-2 scrollbar-none sticky top-20 z-30">
+                <button onclick="switchMainTab('workspace-ai')" id="btn-workspace-ai" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap bg-blue-600 text-white">
+                    <i class="fas fa-brain text-sm"></i> Asisten AI
+                </button>
+                <button onclick="switchMainTab('workspace-fundamental')" id="btn-workspace-fundamental" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap text-gray-400 hover:bg-[#1E293B] hover:text-white">
+                    <i class="fas fa-chart-pie text-sm"></i> Analisa Fundamental
+                </button>
+                <button onclick="switchMainTab('workspace-terminal')" id="btn-workspace-terminal" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap text-gray-400 hover:bg-[#1E293B] hover:text-white">
+                    <i class="fas fa-terminal text-sm"></i> Pro Terminal
+                </button>
+                <button onclick="switchMainTab('workspace-sizing')" id="btn-workspace-sizing" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap text-gray-400 hover:bg-[#1E293B] hover:text-white">
+                    <i class="fas fa-arrows-spin text-sm"></i> Siklus & Sizing
+                </button>
+                <button onclick="switchMainTab('workspace-sentimen')" id="btn-workspace-sentimen" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap text-gray-400 hover:bg-[#1E293B] hover:text-white">
+                    <i class="fas fa-bullseye text-sm"></i> Sentimen Live
+                </button>
             </div>
 
-            <div class="bg-brand-card rounded-3xl p-8 md:p-12 border border-brand-500/30 shadow-2xl relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-brand-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-widest">
-                    VIP ACCESS
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-                    <div class="space-y-4">
-                        <h3 class="text-xl font-bold text-white">StockIntel VIP Premium</h3>
-                        <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">Dapatkan seluruh ulasan fundamental eksklusif, analisis teknikal mingguan, serta panduan alokasi dana.</p>
-                        <div class="flex items-baseline gap-1 pt-2">
-                            <span class="text-4xl font-extrabold text-white tracking-tight">Rp 200.000</span>
-                            <span class="text-gray-400 text-xs font-semibold">/ bulan</span>
+            <!-- ================= TAB CONTENT 1: ASISTEN AI ================= -->
+            <div id="content-workspace-ai" class="space-y-6">
+                <div class="bg-brand-card rounded-3xl border border-gray-800 overflow-hidden shadow-2xl">
+                    <div class="p-6 border-b border-gray-800 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 flex-shrink-0">
+                                <i class="fas fa-brain text-2xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                                    StockIntel Premium AI Toolset
+                                </h2>
+                                <p class="text-xs text-gray-400">Analisis Fundamental, Pengenalan Pola Chart, Risiko & Live Call Konsultan</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-blue-500/20 uppercase tracking-widest">GEMINI 3.1 SUITE</span>
                         </div>
                     </div>
 
-                    <div class="space-y-6">
-                        <ul class="space-y-3.5 text-xs sm:text-sm">
-                            <li class="flex items-center gap-3">
-                                <i class="fas fa-circle-check text-green-400 text-lg"></i>
-                                <span class="text-gray-300">Daily Market Update (Pagi & Sore)</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fas fa-circle-check text-green-400 text-lg"></i>
-                                <span class="text-gray-300">Akses Grup Telegram Diskusi VIP</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fas fa-circle-check text-green-400 text-lg"></i>
-                                <span class="text-gray-300">Laporan Analisis Deep-Dive Bulanan</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fas fa-circle-check text-green-400 text-lg"></i>
-                                <span class="text-gray-300">Konsultasi Portofolio Langsung dengan Tim</span>
-                            </li>
-                        </ul>
-
-                        <!-- Direct WhatsApp Payment Redirection -->
-                        <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20untuk%20berlangganan%20VIP%20Premium%20Rp%20200.000/bulan.%20Bagaimana%20prosedur%20pendaftarannya?" target="_blank" class="block w-full bg-[#25D366] hover:bg-[#20bd5a] text-center text-white py-4 rounded-xl font-bold text-sm transition-all shadow-lg shadow-green-950/50 flex justify-center items-center gap-2 glow-green">
-                            <i class="fab fa-whatsapp text-lg"></i> Hubungi Admin via WhatsApp
-                        </a>
+                    <!-- Inner Tabs -->
+                    <div class="border-b border-gray-800 bg-brand-dark/30 px-6 flex overflow-x-auto gap-6 scrollbar-none">
+                        <button onclick="switchTab('tanya-ai')" id="tab-tanya-ai" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                            <i class="fas fa-comment-dots"></i> Tanya AI
+                        </button>
+                        <button onclick="switchTab('analisa-grafik')" id="tab-analisa-grafik" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                            <i class="fas fa-eye"></i> Analisa Grafik (Vision)
+                        </button>
+                        <button onclick="switchTab('stress-test')" id="tab-stress-test" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                            <i class="fas fa-shield-halved"></i> Stress Test Portofolio
+                        </button>
+                        <button onclick="switchTab('suara-live')" id="tab-suara-live" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                            <span class="w-2 h-2 rounded-full bg-red-500 pulse-active"></span> <i class="fas fa-phone-volume"></i> Asisten Suara Live
+                        </button>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-[#050A18] pt-16 pb-8 border-t border-gray-800 text-xs sm:text-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-                <div class="col-span-1 md:col-span-2 space-y-4">
-                    <!-- Brand Logo footer (Tanpa box putih) -->
-                    <div class="flex items-center gap-2">
-                        <img src="logo.png" alt="StockIntel Logo" class="h-12 md:h-16 object-contain" onerror="this.src='file_0000000019087208a2dc9c8217aa755a.png'">
-                    </div>
-                    <p class="text-gray-400 max-w-sm leading-relaxed text-xs">
-                        Membangun pertumbuhan kekayaan jangka panjang melalui analisis fundamental independen dan disiplin pengelolaan risiko yang matang.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Navigasi Cepat</h4>
-                    <ul class="space-y-2 text-xs">
-                        <li><a href="#fitur" class="text-gray-400 hover:text-brand-400 transition-colors">Layanan & Fitur</a></li>
-                        <li><a href="#chart-section" class="text-gray-400 hover:text-brand-400 transition-colors">Terminal Live Chart</a></li>
-                        <li><a href="#harga" class="text-gray-400 hover:text-brand-400 transition-colors">Paket VIP Premium</a></li>
-                        <li><a href="dashboard.html" class="text-gray-400 hover:text-brand-400 transition-colors">Portal Login Anggota</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Kebijakan & Legal</h4>
-                    <ul class="space-y-2 text-xs">
-                        <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors">Syarat & Ketentuan</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors">Disclaimer Risiko Investasi</a></li>
-                    </ul>
-                </div>
-            </d
+                    <!-- Inner Contents -->
+                    <div class="p-6">
+                        <!-- Tanya AI -->
+                        <div id="content-tanya-ai" class="space-y-4">
+                            <div id="chat-box" class="h-80 bg-[#070D1F] rounded-2xl border border-gray-800 p-4 overflow-y-auto space-y-4 text-sm">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">SI</div>
+                                    <div class="bg-brand-accent p-3 rounded-2xl rounded-tl-none max-w-[85%]">
+                                        <p class="leading-relaxed">Halo Investor VIP! Saya adalah Asisten AI Finansial Anda. Silakan tanyakan apa saja terkait emiten IHSG, analisis fundamental, ataupun pemahaman rasio keuangan.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <input id="chat-input" onkeydown="handleChatKey(event)" type="text" placeholder="Tanya analisis saham misal: 'Bagaimana prospek BBCA kuartal ini?'" class="flex-1 bg-[#070D1F] border border-gray-800 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all text-white">
+                                <button onclick="submitChat()" class="bg-blue-600 hover:bg-blue-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center transition-all glow-blue">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Analisa Grafik -->
+                        <div id="content-analisa-grafik" class="hidden space-y-4">
+                            <div id="vision-loading" class="hidden bg-blue-950/20 border border-blue-900/30 rounded-2xl p-6 text-center space-y-3">
+                                <div class="flex items-center justify-center gap-3 text-blue-400 font-semibold tracking-wider text-xs">
+                                    <i class="fas fa-spinner fa-spin text-lg"></i>
+                                    <span>GEMINI MEMINDAI POLA CHART & MENGIDENTIFIKASI TITIK MOMENTUM...</span>
+                                </div>
+                                <div class="h-2 bg-blue-950 rounded-full overflow-hidden">
+                                    <div class="h-full bg-blue-500 rounded-full animate-pulse" style="width: 75%"></div>
+                                </div>
+                            </div>
+
+                            <div id="vision-output" class="hidden bg-brand-dark/60 rounded-2xl border border-gray-800 p-5 text-sm space-y-3 leading-relaxed">
+                                <h4 class="font-bold text-blue-400 flex items-center gap-2"><i class="fas fa-square-poll-vertical"></i> Hasil Deteksi Teknikal AI:</h4>
+                                <p id="vision-result-text" class="text-gray-300"></p>
+                            </div>
+
+                            <p class="text-xs text-gray-400">Unggah tangkapan layar chart teknikal Anda. AI CMT (Chartered Market Technician) akan mendeteksi support, resistance, pola tren, & momentum.</p>
+                            
+                            <div onclick="document.getElementById('file-input').click()" ondragover="event.preventDefault(); this.classList.add('border-blue-500')" ondragleave="this.classList.remove('border-blue-500')" ondrop="handleFileDrop(event)" class="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-8 text-center cursor-pointer transition-all bg-[#070D1F]/50 flex flex-col items-center justify-center gap-3">
+                                <input id="file-input" type="file" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
+                                <i class="fas fa-cloud-arrow-up text-4xl text-gray-500" id="upload-icon"></i>
+                                <span class="font-semibold text-sm text-gray-300" id="upload-status">Seret & lepas atau klik untuk memilih gambar</span>
+                                <span class="text-xs text-gray-500">Format: PNG, JPG, JPEG (Maks 4MB)</span>
+                            </div>
+
+                            <div id="preview-container" class="hidden relative w-32 mx-auto rounded-xl border border-gray-700 overflow-hidden bg-brand-dark">
+                                <img id="image-preview" src="" alt="Pratinjau chart" class="w-full h-auto object-cover">
+                                <button onclick="clearImagePreview(event)" class="a
