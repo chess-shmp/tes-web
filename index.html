@@ -1,266 +1,317 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StockIntel - VIP Member Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            400: '#3B82F6',
-                            500: '#1D4ED8',
-                            600: '#1E3A8A',
-                            dark: '#050A18',
-                            card: '#111C3A',
-                            accent: '#1E293B'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .glow-blue { box-shadow: 0 0 15px rgba(29, 78, 216, 0.4); }
-        .glow-green { box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
-        .glow-red { box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
-        
-        @keyframes pulse-ring {
-            0% { transform: scale(0.95); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-            100% { transform: scale(0.95); opacity: 0.5; }
-        }
-        .pulse-active { animation: pulse-ring 2s infinite ease-in-out; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StockIntel - VIP Member Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Space Grotesk', sans-serif; background: #03071A; color: #f1f5f9; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+@keyframes fadeInUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+@keyframes pulse-ring { 0%{transform:scale(.95);opacity:.5}50%{transform:scale(1.12);opacity:.9}100%{transform:scale(.95);opacity:.5} }
+@keyframes ticker { 0%{transform:translateX(0)}100%{transform:translateX(-50%)} }
+@keyframes spin { to{transform:rotate(360deg)} }
+@keyframes gradShift { 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+
+.fade-in { animation: fadeInUp .45s ease-out forwards; }
+.pulse-active { animation: pulse-ring 2s infinite ease-in-out; }
+.spin { animation: spin 1s linear infinite; }
+
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:#03071A}
+::-webkit-scrollbar-thumb{background:#1D4ED8;border-radius:2px}
+.scrollbar-none{scrollbar-width:none;-ms-overflow-style:none}
+.scrollbar-none::-webkit-scrollbar{display:none}
+
+.glow-blue { box-shadow: 0 0 18px rgba(37,99,235,.5); }
+.neon-border { border:1px solid rgba(37,99,235,.35); box-shadow:0 0 14px rgba(37,99,235,.18),inset 0 0 14px rgba(37,99,235,.05); }
+
+.bg-card { background: #0A1628; }
+.bg-dark { background: #03071A; }
+.bg-accent { background: #111F3C; }
+
+.auth-bg {
+  background: radial-gradient(ellipse at 20% 20%, rgba(37,99,235,.14) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 80%, rgba(29,78,216,.09) 0%, transparent 60%), #03071A;
+}
+.bg-grid {
+  background-image: linear-gradient(rgba(37,99,235,.04) 1px,transparent 1px),
+                    linear-gradient(90deg,rgba(37,99,235,.04) 1px,transparent 1px);
+  background-size: 40px 40px;
+}
+
+.main-tab-active { background:linear-gradient(135deg,#1D4ED8,#2563EB)!important;color:#fff!important;box-shadow:0 4px 14px rgba(37,99,235,.4); }
+.inner-tab-active { border-bottom-color:#2563EB!important;color:#fff!important; }
+
+.ticker-wrap{overflow:hidden}
+.ticker-content{display:inline-flex;animation:ticker 35s linear infinite;white-space:nowrap}
+.ticker-content:hover{animation-play-state:paused}
+
+.chat-ai { background:linear-gradient(135deg,#111F3C,#0D1B35);border:1px solid rgba(37,99,235,.2); }
+.chat-user { background:linear-gradient(135deg,#1D4ED8,#2563EB); }
+
+.ai-prose p{margin-bottom:.6rem}
+.ai-prose strong{color:#60A5FA}
+.ai-prose ul{list-style:disc;padding-left:1.2rem;margin-bottom:.6rem}
+.ai-prose li{margin-bottom:.2rem}
+.ai-prose h3{color:#93C5FD;font-weight:700;font-size:.8rem;margin-bottom:.4rem;margin-top:.9rem}
+
+.calc-input{background:#03071A;border:1px solid #1F2D4A;color:#fff;border-radius:12px;padding:10px 14px;font-size:.875rem;width:100%;outline:none;transition:border-color .2s}
+.calc-input:focus{border-color:#2563EB}
+
+.gauge-bar{height:8px;border-radius:4px;background:linear-gradient(90deg,#22C55E,#EAB308,#EF4444);position:relative}
+.gauge-needle{position:absolute;top:-5px;width:4px;height:18px;background:#fff;border-radius:2px;transform:translateX(-50%);box-shadow:0 0 8px #fff;transition:left 1s ease}
+
+.voice-orb{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#3B82F6,#1D4ED8,#0D1B35);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;box-shadow:0 0 36px rgba(37,99,235,.55),0 0 72px rgba(37,99,235,.18)}
+.voice-orb.listening{box-shadow:0 0 55px rgba(239,68,68,.65),0 0 90px rgba(239,68,68,.25);background:radial-gradient(circle at 35% 35%,#F87171,#DC2626,#1A0505);animation:pulse-ring 1s infinite ease-in-out}
+.voice-ring{position:absolute;border-radius:50%;border:2px solid rgba(37,99,235,.28);animation:pulse-ring 2s infinite ease-in-out}
+
+.sector-card{transition:all .2s;cursor:pointer}
+.sector-card:hover{transform:translateY(-2px)}
+.sector-card.selected{border-color:#2563EB!important;background:rgba(37,99,235,.15)!important}
+
+.data-table tr:hover td{background:rgba(37,99,235,.07)}
+
+/* Skeleton shimmer */
+@keyframes skeleton { 0%{background-position:-200% 0}100%{background-position:200% 0} }
+.skeleton{background:linear-gradient(90deg,#111F3C 25%,#1a2d4a 50%,#111F3C 75%);background-size:200% 100%;animation:skeleton 1.4s infinite;border-radius:6px}
+
+/* Price color */
+.pos { color: #22C55E; }
+.neg { color: #EF4444; }
+.neu { color: #94A3B8; }
+
+/* Live dot */
+.live-dot { display:inline-block;width:8px;height:8px;background:#22C55E;border-radius:50%; }
+.live-dot.red { background:#EF4444; }
+
+/* Refresh spin */
+.refreshing .fa-rotate { animation: spin .8s linear infinite; }
+</style>
 </head>
-<body class="bg-[#050A18] text-gray-100 min-h-screen antialiased">
+<body>
 
-    <!-- PORTAL GATE / LAYAR LOGIN (Tampil Jika Belum Verifikasi) -->
-    <div id="auth-gate" class="min-h-screen flex items-center justify-center px-4 bg-radial from-[#0b142d] to-[#050a18]">
-        <div class="max-w-md w-full bg-brand-card rounded-3xl p-8 border border-gray-800 shadow-2xl space-y-6 text-center">
-            <div class="flex flex-col items-center gap-3">
-                <img src="logo.png" alt="StockIntel Logo" class="h-16 object-contain" onerror="this.onerror=null; this.src='file_0000000019087208a2dc9c8217aa755a.png'">
-                <span class="bg-brand-500/20 text-brand-400 text-xs font-bold px-3 py-1 rounded-full border border-brand-500/30 uppercase tracking-widest">VIP Portal Access</span>
-            </div>
-            
-            <div class="space-y-2">
-                <h2 class="text-xl font-bold text-white">Masukkan Kode Akses</h2>
-                <p class="text-xs text-gray-400">Silakan masukkan kode akses VIP Anda yang valid untuk membuka seluruh fitur analisis StockIntel.</p>
-            </div>
-
-            <!-- Pesan Kesalahan / Notifikasi -->
-            <div id="auth-error" class="hidden bg-red-950/30 border border-red-500/30 text-red-400 text-xs p-3 rounded-xl"></div>
-
-            <div class="space-y-4">
-                <input id="portal-code-input" type="text" placeholder="Contoh: SI-20260605-8F3C" class="w-full text-center tracking-wider bg-brand-dark border border-gray-700 rounded-xl px-4 py-3.5 text-sm font-mono text-white focus:outline-none focus:border-brand-500 transition-all uppercase">
-                <button onclick="verifyAccessCode()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3 rounded-xl transition-all glow-blue">
-                    Verifikasi & Buka Portal
-                </button>
-            </div>
-
-            <div class="border-t border-gray-800 pt-4 text-xs space-y-2">
-                <p class="text-gray-500">Belum punya kode akses atau ingin berlangganan?</p>
-                <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20tertarik%20berlangganan%20VIP%20dan%20mendapatkan%20kode%20akses." target="_blank" class="text-brand-400 hover:underline font-semibold flex items-center justify-center gap-1">
-                    <i class="fab fa-whatsapp"></i> Hubungi Admin WhatsApp
-                </a>
-            </div>
+<!-- ===== AUTH GATE ===== -->
+<div id="auth-gate" class="min-h-screen flex items-center justify-center px-4 auth-bg bg-grid">
+  <div class="max-w-md w-full fade-in">
+    <div class="bg-card rounded-3xl p-8 neon-border shadow-2xl space-y-7 text-center relative overflow-hidden">
+      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700"></div>
+      <div class="flex flex-col items-center gap-3">
+        <div class="w-16 h-16 rounded-2xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center glow-blue">
+          <i class="fas fa-chart-line text-blue-400 text-3xl"></i>
         </div>
+        <div>
+          <h1 class="text-2xl font-bold text-white tracking-tight">StockIntel</h1>
+          <span class="bg-blue-500/20 text-blue-400 text-[10px] font-bold px-3 py-1 rounded-full border border-blue-500/30 uppercase tracking-widest">VIP Portal Access</span>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold text-white mb-1">Masukkan Kode Akses VIP</h2>
+        <p class="text-xs text-gray-400 leading-relaxed">Masukkan kode akses VIP yang valid untuk membuka seluruh fitur analisis real-time StockIntel.</p>
+      </div>
+      <div id="auth-error" class="hidden bg-red-950/30 border border-red-500/30 text-red-400 text-xs p-3 rounded-xl text-left">
+        <i class="fas fa-circle-exclamation mr-2"></i><span id="auth-error-msg"></span>
+      </div>
+      <div class="space-y-3">
+        <input id="portal-code-input" type="text" placeholder="Contoh: SI-20260605-8F3C"
+          class="w-full text-center tracking-widest bg-dark border border-gray-700 rounded-xl px-4 py-3.5 text-sm mono text-white focus:outline-none focus:border-blue-500 transition-all uppercase placeholder:tracking-normal placeholder:font-sans"
+          onkeydown="if(event.key==='Enter')verifyAccessCode()">
+        <button onclick="verifyAccessCode()" class="w-full bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-600 hover:to-blue-400 text-white font-semibold py-3.5 rounded-xl transition-all glow-blue text-sm">
+          <i class="fas fa-unlock-keyhole mr-2"></i>Verifikasi & Buka Portal
+        </button>
+      </div>
+      <div class="border-t border-gray-800 pt-5 text-xs space-y-2">
+        <p class="text-gray-500">Belum punya kode akses VIP?</p>
+        <a href="https://wa.me/6287832727925?text=Halo%20StockIntel,%20saya%20ingin%20berlangganan%20VIP." target="_blank"
+           class="flex items-center justify-center gap-2 text-green-400 hover:text-green-300 font-semibold">
+          <i class="fab fa-whatsapp text-lg"></i> Hubungi Admin WhatsApp
+        </a>
+      </div>
+    </div>
+    <p class="text-center text-xs text-gray-700 mt-4 mono">Demo: ketik <span class="text-blue-600">ADMIN</span> atau <span class="text-blue-600">VIP2026</span></p>
+  </div>
+</div>
+
+<!-- ===== MAIN DASHBOARD ===== -->
+<div id="main-dashboard" class="hidden">
+
+  <!-- Live Ticker -->
+  <div class="bg-card/80 border-b border-gray-800/50 py-1.5 overflow-hidden">
+    <div class="ticker-wrap">
+      <div id="ticker-content" class="ticker-content text-xs mono text-gray-400 gap-8 px-4">
+        <span class="text-gray-600">⟳ Memuat data...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="bg-card/95 backdrop-blur border-b border-gray-800 sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="flex justify-between items-center py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center glow-blue">
+            <i class="fas fa-chart-line text-blue-400 text-lg"></i>
+          </div>
+          <div>
+            <span class="text-white font-bold text-lg tracking-tight">StockIntel</span>
+            <div class="flex items-center gap-2">
+              <span class="bg-blue-500/15 text-blue-400 text-[9px] font-bold px-2 py-0.5 rounded-full border border-blue-500/25 uppercase tracking-widest">VIP Member</span>
+              <span id="member-name-badge" class="text-[9px] text-gray-500"></span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- Market Status -->
+          <div id="market-status-badge" class="hidden sm:flex items-center gap-1.5 bg-accent border border-gray-700 text-xs px-3 py-1.5 rounded-xl">
+            <span id="market-dot" class="live-dot"></span>
+            <span id="market-status-text" class="text-gray-300 font-semibold">Pasar</span>
+          </div>
+          <button onclick="refreshAllData()" id="refresh-btn"
+            class="bg-accent hover:bg-gray-800 text-xs text-gray-300 font-semibold px-3 py-2 rounded-xl border border-gray-700 transition-all flex items-center gap-1.5" title="Refresh Data">
+            <i class="fas fa-rotate text-blue-400 text-xs"></i>
+            <span class="hidden sm:inline">Refresh</span>
+          </button>
+          <button id="btn-api-key" onclick="promptApiKey()"
+            class="bg-accent hover:bg-gray-800 text-xs text-gray-300 font-semibold px-3 py-2 rounded-xl border border-gray-700 transition-all flex items-center gap-1.5">
+            <i class="fas fa-key text-blue-400 text-xs"></i>
+            <span id="api-key-status" class="hidden sm:inline">Set API Key</span>
+          </button>
+          <button onclick="logoutVIP()" class="bg-red-950/40 hover:bg-red-900/50 text-xs text-red-400 font-semibold px-3 py-2 rounded-xl border border-red-900/40 transition-all">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-5xl mx-auto px-4 py-5 space-y-5">
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-panel" class="hidden bg-gradient-to-br from-purple-950/40 to-blue-950/30 rounded-3xl border border-purple-500/25 p-6 space-y-4 shadow-2xl">
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center text-purple-400 flex-shrink-0">
+          <i class="fas fa-user-shield text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-base font-bold text-white">Administrator Control</h2>
+          <p class="text-xs text-gray-400 mt-0.5">Generate kode akses VIP untuk member baru.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <input id="admin-member-name" type="text" placeholder="Nama Member VIP" class="calc-input border-purple-800/40 focus:border-purple-500">
+        <input id="admin-join-date" type="date" class="calc-input border-purple-800/40 focus:border-purple-500">
+      </div>
+      <button onclick="generateMemberLink()" class="bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold py-2.5 px-5 rounded-xl transition-all">
+        <i class="fas fa-wand-magic-sparkles mr-2"></i>Generate Link VIP
+      </button>
+      <div id="generator-output" class="hidden space-y-2 bg-black/30 p-4 rounded-2xl border border-purple-800/30 text-xs">
+        <div><span class="font-bold text-purple-400">Token:</span><p id="output-token-code" class="mono text-white bg-black/40 px-3 py-1.5 rounded-lg mt-1 select-all break-all"></p></div>
+        <div><span class="font-bold text-purple-400">Link Akses:</span><p id="output-direct-url" class="mono text-white bg-black/40 px-3 py-1.5 rounded-lg mt-1 select-all break-all"></p></div>
+        <button onclick="copyGeneratedMessage()" class="w-full bg-purple-900/50 hover:bg-purple-900 text-purple-300 py-2 rounded-xl border border-purple-500/30 font-semibold">
+          <i class="fas fa-copy mr-1"></i>Salin Draft WA
+        </button>
+      </div>
     </div>
 
-    <!-- DASHBOARD CONTENT (Tersembunyi Sebelum Berhasil Login) -->
-    <div id="main-dashboard" class="hidden">
-        <!-- Navbar VIP -->
-        <nav class="bg-brand-card/95 backdrop-blur border-b border-gray-800 sticky top-0 z-40">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-20">
-                    <div class="flex items-center gap-4">
-                        <img src="logo.png" alt="StockIntel Logo" class="h-10 md:h-14 object-contain" onerror="this.onerror=null; this.src='file_0000000019087208a2dc9c8217aa755a.png'">
-                        <span class="bg-brand-500/20 text-brand-400 text-xs font-bold px-2.5 py-1 rounded-full border border-brand-500/30 uppercase tracking-widest">VIP Member</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <button id="btn-api-key" onclick="promptApiKey()" class="bg-brand-accent hover:bg-gray-800 text-xs text-gray-300 font-semibold px-4 py-2 rounded-full border border-gray-700 transition-all flex items-center gap-1.5">
-                            <i class="fas fa-key text-blue-400"></i>
-                            <span id="api-key-status">Set API Key</span>
-                        </button>
-                        <button onclick="logoutVIP()" class="bg-red-950/40 hover:bg-red-900/40 text-xs text-red-400 font-semibold px-3 py-2 rounded-lg border border-red-900/30">
-                            Keluar <i class="fas fa-sign-out-alt ml-1"></i>
-                        </button>
-                    </div>
-                </div>
+    <!-- MARKET STATUS BAR (IHSG Real-time) -->
+    <div class="bg-card rounded-2xl border border-gray-800 p-4 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+        </span>
+        <span class="text-xs text-gray-400">Live Data: <strong class="text-white">Yahoo Finance</strong></span>
+        <span class="text-gray-700 text-xs">|</span>
+        <span class="text-xs text-gray-500">Diperbarui: <strong id="last-update-time" class="text-gray-300">—</strong></span>
+      </div>
+      <div class="flex items-center gap-2 flex-wrap">
+        <div id="ihsg-badge" class="bg-accent border border-gray-700 px-3 py-1.5 rounded-full text-xs font-semibold mono">
+          IHSG <span id="ihsg-val" class="text-gray-400">…</span>
+        </div>
+        <div id="lq45-badge" class="bg-accent border border-gray-700 px-3 py-1.5 rounded-full text-xs font-semibold mono hidden sm:block">
+          LQ45 <span id="lq45-val" class="text-gray-400">…</span>
+        </div>
+        <div id="vip-badge" class="bg-green-500/10 text-green-400 border border-green-500/20 px-3 py-1.5 rounded-full text-xs font-semibold">
+          ✓ VIP Aktif
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN TAB NAV -->
+    <div class="sticky top-[72px] z-30">
+      <div class="bg-card/90 backdrop-blur rounded-2xl p-1.5 border border-gray-800 flex overflow-x-auto gap-1 scrollbar-none shadow-xl">
+        <button onclick="switchMainTab('workspace-ai')" id="btn-workspace-ai"
+          class="main-tab-active flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap">
+          <i class="fas fa-brain"></i><span class="hidden sm:inline">Asisten AI</span><span class="sm:hidden">AI</span>
+        </button>
+        <button onclick="switchMainTab('workspace-fundamental')" id="btn-workspace-fundamental"
+          class="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap text-gray-400 hover:bg-accent hover:text-white">
+          <i class="fas fa-chart-pie"></i><span class="hidden sm:inline">Fundamental</span><span class="sm:hidden">Fund.</span>
+        </button>
+        <button onclick="switchMainTab('workspace-terminal')" id="btn-workspace-terminal"
+          class="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap text-gray-400 hover:bg-accent hover:text-white">
+          <i class="fas fa-terminal"></i><span class="hidden sm:inline">Pro Terminal</span><span class="sm:hidden">Terminal</span>
+        </button>
+        <button onclick="switchMainTab('workspace-sizing')" id="btn-workspace-sizing"
+          class="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap text-gray-400 hover:bg-accent hover:text-white">
+          <i class="fas fa-arrows-spin"></i><span class="hidden sm:inline">Sizing</span><span class="sm:hidden">Sizing</span>
+        </button>
+        <button onclick="switchMainTab('workspace-sentimen')" id="btn-workspace-sentimen"
+          class="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap text-gray-400 hover:bg-accent hover:text-white">
+          <i class="fas fa-bullseye"></i><span class="hidden sm:inline">Sentimen</span><span class="sm:hidden">Sent.</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== TAB 1: ASISTEN AI ===== -->
+    <div id="content-workspace-ai" class="space-y-5">
+      <div class="bg-card rounded-3xl border border-gray-800 overflow-hidden shadow-2xl">
+        <div class="p-5 border-b border-gray-800 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 flex-shrink-0 glow-blue">
+              <i class="fas fa-brain text-xl"></i>
             </div>
-        </nav>
-
-        <!-- Main Container -->
-        <div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
-
-            <!-- ADMIN CODE GENERATOR PANEL (Hanya Muncul Jika Admin yang Login) -->
-            <div id="admin-panel" class="hidden bg-gradient-to-r from-purple-950/40 to-blue-950/40 rounded-3xl border border-purple-500/30 p-6 space-y-6 shadow-2xl">
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 flex-shrink-0">
-                        <i class="fas fa-user-shield text-2xl"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            StockIntel Administrator Control
-                        </h2>
-                        <p class="text-xs text-gray-400">Buat kode akses VIP khusus untuk member yang baru saja bergabung.</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-2">
-                        <label class="text-xs text-gray-400 font-semibold block">Nama Member VIP</label>
-                        <input id="admin-member-name" type="text" placeholder="Contoh: Budi Santoso" class="w-full bg-brand-dark border border-gray-700 rounded-xl px-3 py-2 text-sm text-white">
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-xs text-gray-400 font-semibold block">Tanggal Mulai Langganan (Hari Ini)</label>
-                        <input id="admin-join-date" type="date" class="w-full bg-brand-dark border border-gray-700 rounded-xl px-3 py-2 text-sm text-white">
-                    </div>
-                </div>
-
-                <div class="flex flex-col md:flex-row gap-3">
-                    <button onclick="generateMemberLink()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold py-3 rounded-xl transition-all shadow-lg shadow-purple-900/50">
-                        Generate Link & Kode VIP
-                    </button>
-                </div>
-
-                <!-- Hasil Generator Token -->
-                <div id="generator-output" class="hidden space-y-3 bg-brand-dark/80 p-4 rounded-xl border border-purple-800/30 text-xs">
-                    <div class="space-y-1">
-                        <span class="font-bold text-purple-400">Kode Token Ter-enkripsi:</span>
-                        <p id="output-token-code" class="font-mono text-white bg-black/40 px-3 py-1.5 rounded-lg border border-gray-800 select-all"></p>
-                    </div>
-                    <div class="space-y-1">
-                        <span class="font-bold text-purple-400">Link Akses Langsung Member (Copy & Kirimkan):</span>
-                        <p id="output-direct-url" class="font-mono text-white bg-black/40 px-3 py-1.5 rounded-lg border border-gray-800 break-all select-all"></p>
-                    </div>
-                    <button onclick="copyGeneratedMessage()" class="w-full bg-purple-950/50 hover:bg-purple-950 text-purple-300 py-2 rounded-lg border border-purple-500/30 font-semibold">
-                        <i class="fas fa-copy mr-1"></i> Salin Link & Draft Pesan WA
-                    </button>
-                </div>
+            <div>
+              <h2 class="text-lg font-bold text-white">StockIntel Premium AI</h2>
+              <p class="text-xs text-gray-400 mt-0.5">Chat AI · Analisa Chart · Stress Test · Suara Live</p>
             </div>
+          </div>
+          <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-blue-500/20 uppercase tracking-widest self-start sm:self-center">
+            <i class="fas fa-microchip mr-1"></i>AI Suite
+          </span>
+        </div>
 
-            <!-- NOTIFIKASI STATUS AKTIF MEMBER -->
-            <div id="member-status-bar" class="bg-brand-card rounded-2xl border border-gray-800 p-4 flex items-center justify-between text-xs">
-                <div class="flex items-center gap-3">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                    </span>
-                    <span class="text-gray-400">Status Akses: <strong class="text-white">AKTIF</strong></span>
-                </div>
-                <div id="days-remaining-badge" class="bg-green-500/10 text-green-400 border border-green-500/20 px-3 py-1 rounded-full font-semibold">
-                    VIP Akses Aktif
-                </div>
-            </div>
+        <!-- Inner Tabs -->
+        <div class="border-b border-gray-800 px-5 flex gap-5 overflow-x-auto scrollbar-none bg-black/20">
+          <button onclick="switchInnerTab('tanya-ai')" id="tab-tanya-ai"
+            class="inner-tab-active py-3.5 text-xs font-semibold border-b-2 text-gray-400 hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
+            <i class="fas fa-comment-dots"></i> Tanya AI
+          </button>
+          <button onclick="switchInnerTab('analisa-grafik')" id="tab-analisa-grafik"
+            class="py-3.5 text-xs font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
+            <i class="fas fa-eye"></i> Analisa Grafik
+          </button>
+          <button onclick="switchInnerTab('stress-test')" id="tab-stress-test"
+            class="py-3.5 text-xs font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
+            <i class="fas fa-shield-halved"></i> Stress Test
+          </button>
+          <button onclick="switchInnerTab('suara-live')" id="tab-suara-live"
+            class="py-3.5 text-xs font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
+            <span class="w-2 h-2 rounded-full bg-red-500 pulse-active inline-block"></span>
+            <i class="fas fa-phone-volume"></i> Suara
+          </button>
+        </div>
 
-            <!-- FIVE CATEGORY MAIN TAB NAVIGATION -->
-            <div class="border-b border-gray-800 bg-brand-card/50 rounded-2xl p-2 flex overflow-x-auto gap-2 scrollbar-none sticky top-20 z-30">
-                <button onclick="switchMainTab('workspace-ai')" id="btn-workspace-ai" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap bg-blue-600 text-white">
-                    <i class="fas fa-brain text-sm"></i> Asisten AI
-                </button>
-                <button onclick="switchMainTab('workspace-fundamental')" id="btn-workspace-fundamental" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap text-gray-400 hover:bg-[#1E293B] hover:text-white">
-                    <i class="fas fa-chart-pie text-sm"></i> Analisa Fundamental
-                </button>
-                <button onclick="switchMainTab('workspace-terminal')" id="btn-workspace-terminal" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap text-gray-400 hover:bg-[#1E293B] hover:text-white">
-                    <i class="fas fa-terminal text-sm"></i> Pro Terminal
-                </button>
-                <button onclick="switchMainTab('workspace-sizing')" id="btn-workspace-sizing" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap text-gray-400 hover:bg-[#1E293B] hover:text-white">
-                    <i class="fas fa-arrows-spin text-sm"></i> Siklus & Sizing
-                </button>
-                <button onclick="switchMainTab('workspace-sentimen')" id="btn-workspace-sentimen" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap text-gray-400 hover:bg-[#1E293B] hover:text-white">
-                    <i class="fas fa-bullseye text-sm"></i> Sentimen Live
-                </button>
-            </div>
-
-            <!-- ================= TAB CONTENT 1: ASISTEN AI ================= -->
-            <div id="content-workspace-ai" class="space-y-6">
-                <div class="bg-brand-card rounded-3xl border border-gray-800 overflow-hidden shadow-2xl">
-                    <div class="p-6 border-b border-gray-800 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 flex-shrink-0">
-                                <i class="fas fa-brain text-2xl"></i>
-                            </div>
-                            <div>
-                                <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                                    StockIntel Premium AI Toolset
-                                </h2>
-                                <p class="text-xs text-gray-400">Analisis Fundamental, Pengenalan Pola Chart, Risiko & Live Call Konsultan</p>
-                            </div>
-                        </div>
-                        <div>
-                            <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-blue-500/20 uppercase tracking-widest">GEMINI 3.1 SUITE</span>
-                        </div>
-                    </div>
-
-                    <!-- Inner Tabs -->
-                    <div class="border-b border-gray-800 bg-brand-dark/30 px-6 flex overflow-x-auto gap-6 scrollbar-none">
-                        <button onclick="switchTab('tanya-ai')" id="tab-tanya-ai" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
-                            <i class="fas fa-comment-dots"></i> Tanya AI
-                        </button>
-                        <button onclick="switchTab('analisa-grafik')" id="tab-analisa-grafik" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
-                            <i class="fas fa-eye"></i> Analisa Grafik (Vision)
-                        </button>
-                        <button onclick="switchTab('stress-test')" id="tab-stress-test" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
-                            <i class="fas fa-shield-halved"></i> Stress Test Portofolio
-                        </button>
-                        <button onclick="switchTab('suara-live')" id="tab-suara-live" class="py-4 text-sm font-semibold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
-                            <span class="w-2 h-2 rounded-full bg-red-500 pulse-active"></span> <i class="fas fa-phone-volume"></i> Asisten Suara Live
-                        </button>
-                    </div>
-
-                    <!-- Inner Contents -->
-                    <div class="p-6">
-                        <!-- Tanya AI -->
-                        <div id="content-tanya-ai" class="space-y-4">
-                            <div id="chat-box" class="h-80 bg-[#070D1F] rounded-2xl border border-gray-800 p-4 overflow-y-auto space-y-4 text-sm">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">SI</div>
-                                    <div class="bg-brand-accent p-3 rounded-2xl rounded-tl-none max-w-[85%]">
-                                        <p class="leading-relaxed">Halo Investor VIP! Saya adalah Asisten AI Finansial Anda. Silakan tanyakan apa saja terkait emiten IHSG, analisis fundamental, ataupun pemahaman rasio keuangan.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <input id="chat-input" onkeydown="handleChatKey(event)" type="text" placeholder="Tanya analisis saham misal: 'Bagaimana prospek BBCA kuartal ini?'" class="flex-1 bg-[#070D1F] border border-gray-800 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all text-white">
-                                <button onclick="submitChat()" class="bg-blue-600 hover:bg-blue-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center transition-all glow-blue">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Analisa Grafik -->
-                        <div id="content-analisa-grafik" class="hidden space-y-4">
-                            <div id="vision-loading" class="hidden bg-blue-950/20 border border-blue-900/30 rounded-2xl p-6 text-center space-y-3">
-                                <div class="flex items-center justify-center gap-3 text-blue-400 font-semibold tracking-wider text-xs">
-                                    <i class="fas fa-spinner fa-spin text-lg"></i>
-                                    <span>GEMINI MEMINDAI POLA CHART & MENGIDENTIFIKASI TITIK MOMENTUM...</span>
-                                </div>
-                                <div class="h-2 bg-blue-950 rounded-full overflow-hidden">
-                                    <div class="h-full bg-blue-500 rounded-full animate-pulse" style="width: 75%"></div>
-                                </div>
-                            </div>
-
-                            <div id="vision-output" class="hidden bg-brand-dark/60 rounded-2xl border border-gray-800 p-5 text-sm space-y-3 leading-relaxed">
-                                <h4 class="font-bold text-blue-400 flex items-center gap-2"><i class="fas fa-square-poll-vertical"></i> Hasil Deteksi Teknikal AI:</h4>
-                                <p id="vision-result-text" class="text-gray-300"></p>
-                            </div>
-
-                            <p class="text-xs text-gray-400">Unggah tangkapan layar chart teknikal Anda. AI CMT (Chartered Market Technician) akan mendeteksi support, resistance, pola tren, & momentum.</p>
-                            
-                            <div onclick="document.getElementById('file-input').click()" ondragover="event.preventDefault(); this.classList.add('border-blue-500')" ondragleave="this.classList.remove('border-blue-500')" ondrop="handleFileDrop(event)" class="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-8 text-center cursor-pointer transition-all bg-[#070D1F]/50 flex flex-col items-center justify-center gap-3">
-                                <input id="file-input" type="file" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
-                                <i class="fas fa-cloud-arrow-up text-4xl text-gray-500" id="upload-icon"></i>
-                                <span class="font-semibold text-sm text-gray-300" id="upload-status">Seret & lepas atau klik untuk memilih gambar</span>
-                                <span class="text-xs text-gray-500">Format: PNG, JPG, JPEG (Maks 4MB)</span>
-                            </div>
-
-                            <div id="preview-container" class="hidden relative w-32 mx-auto rounded-xl border border-gray-700 overflow-hidden bg-brand-dark">
-                                <img id="image-preview" src="" alt="Pratinjau chart" class="w-full h-auto object-cover">
-                                <button onclick="clearImagePreview(event)" class="a
+        <div class="p-5">
+          <!-- TANYA AI -->
+          <div id="content-tanya-ai" class="space-y-4">
+            <div class="flex flex-wrap gap-2">
+              <button onclick="quickPrompt('Analisis fundamental BBCA sekarang')" class="text-xs bg-accent border border-gray-700 text-gray-300 hover:border-blue-500 hover:text-blue-400 px-3 py-1.5 rounded-full transition-all">📊 BBCA</button>
+              <button onclick="quickPrompt('Bagaimana outlook BMRI untuk 2026?')" class="text-xs bg-accent border border-gray-700 text-gray-300 hover:border-blue-500 hover:text-blue-400 px-3 py-1.5 rounded-full transition-all">🏦 BMRI</button>
+           
